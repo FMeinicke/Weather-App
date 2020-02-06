@@ -2,8 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>MenuButton.qml</file>
-        <file>MenuIcon.qml</file>
         <file>HomeForm.ui.qml</file>
         <file>SearchPageForm.ui.qml</file>
         <file>Page2Form.ui.qml</file>
