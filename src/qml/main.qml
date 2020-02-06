@@ -17,29 +17,48 @@ ApplicationWindow {
   height: ScreenInfo.height
 
   header: ToolBar {
-    contentHeight: toolButton.implicitHeight
+    contentHeight: hamburgerMenuButton.implicitHeight
+    contentWidth: ScreenInfo.width
 
-    ToolButton {
-      id: toolButton
-      text: stackView.depth > 1 ? "\u25c4" : "\u2261"
-      font.pixelSize: Qt.application.font.pixelSize * 1.6
-      onClicked: {
-        if (stackView.depth > 1) {
-          stackView.pop()
-        } else {
-          drawer.open()
+    RowLayout {
+      anchors.fill: parent
+      Component.onCompleted: {
+        console.log("width: " + width + ", height: " + height)
+      }
+
+      ToolButton {
+        id: hamburgerMenuButton
+
+        text: stackView.depth > 1 ? "\u25c4" : "\u2261"
+        font.pixelSize: Qt.application.font.pixelSize * 1.6
+        onClicked: {
+          if (stackView.depth > 1) {
+            stackView.pop()
+          } else {
+            drawer.open()
+          }
         }
       }
-    }
 
-    Label {
-      text: stackView.currentItem.title
-      anchors.centerIn: parent
+      Label {
+        text: stackView.currentItem.title
+        font.pixelSize: Qt.application.font.pixelSize * 1.6
+        anchors.centerIn: parent
+      }
+
+      ToolButton {
+        id: searchButton
+
+        icon.source: "qrc:/icons/search"
+        icon.color: 'transparent'
+        onClicked: stackView.push("SearchPageForm.ui.qml")
+      }
     }
   }
 
   Drawer {
     id: drawer
+
     width: window.width * 0.66
     height: window.height
 
@@ -70,16 +89,10 @@ ApplicationWindow {
     initialItem: "HomeForm.ui.qml"
     anchors.fill: parent
   }
-}
-
-// for SwipeView
-//-----------------------------------------------------------------------------
-//ApplicationWindow {
-//  visible: true
+} //-----------------------------------------------------------------------------// for SwipeView//ApplicationWindow {//  visible: true
 //  width: 640
 //  height: 480
 //  title: qsTr("Scroll")
-
 //  ScrollView {
 //    anchors.fill: parent
 
@@ -93,3 +106,4 @@ ApplicationWindow {
 //    }
 //  }
 //}
+

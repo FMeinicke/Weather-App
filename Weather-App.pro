@@ -16,7 +16,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         src/main.cpp
 
-RESOURCES += src/qml/qml.qrc
+RESOURCES += src/qml/qml.qrc \
+       src/res/icons/icons.qrc
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
