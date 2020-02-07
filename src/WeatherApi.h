@@ -10,8 +10,9 @@
 //============================================================================
 //                                   INCLUDES
 //============================================================================
-#include <QObject>
 #include <QByteArray>
+#include <QObject>
+#include <QString>
 
 #include <memory>
 
@@ -47,7 +48,7 @@ signals:
      *
      * @param data The data that was received
      */
-    void dataReady(const QString &data);
+    void dataReady(QString mydata);
 
 public slots:
     /**

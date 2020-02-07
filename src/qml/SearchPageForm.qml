@@ -36,8 +36,7 @@ Page {
   Connections {
     target: weatherApi
     onDataReady: {
-      console.log(data)
-      label.text = qsTr(data)
+      console.log(mydata)
     }
   }
 }
