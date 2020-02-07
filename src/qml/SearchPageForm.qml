@@ -1,5 +1,5 @@
 //============================================================================
-/// \file   SearchPageForm.ui.qml
+/// \file   SearchPageForm.qml
 /// \author Florian Meinicke <florian.meinicke@t-online.de>
 /// \date   06.02.2020
 /// \brief  A page providing a search bar to search for locations

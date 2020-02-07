@@ -51,7 +51,7 @@ ApplicationWindow {
 
         icon.source: "qrc:/icons/search"
         icon.color: 'transparent'
-        onClicked: stackView.push("SearchPageForm.ui.qml")
+        onClicked: stackView.push("SearchPageForm.qml")
       }
     }
   }
@@ -89,7 +89,10 @@ ApplicationWindow {
     initialItem: "HomeForm.ui.qml"
     anchors.fill: parent
   }
-} //-----------------------------------------------------------------------------// for SwipeView//ApplicationWindow {//  visible: true
+}
+//-----------------------------------------------------------------------------
+// for SwipeView//ApplicationWindow {
+//  visible: true
 //  width: 640
 //  height: 480
 //  title: qsTr("Scroll")
