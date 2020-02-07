@@ -1,3 +1,5 @@
+include(third_party/android_openssl/openssl.pri)
+
 QT += quick network
 
 CONFIG += c++14
