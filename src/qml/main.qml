@@ -49,7 +49,7 @@ ApplicationWindow {
       ToolButton {
         id: searchButton
 
-        icon.source: "qrc:/icons/search"
+        icon.source: "qrc:/icons/search_white"
         icon.color: 'transparent'
         onClicked: stackView.push("SearchPageForm.qml")
       }
