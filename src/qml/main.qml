@@ -43,7 +43,7 @@ ApplicationWindow {
       Label {
         text: stackView.currentItem.title
         font.pixelSize: Qt.application.font.pixelSize * 1.6
-        anchors.centerIn: parent
+        Layout.alignment: Qt.AlignCenter
       }
 
       ToolButton {
