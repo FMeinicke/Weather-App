@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/icons">
         <file alias="search">baseline_search_black_48.png</file>
+        <file alias="close">baseline_close_black_48.png</file>
     </qresource>
 </RCC>

@@ -10,27 +10,29 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
 Page {
-  id: page
+  id: root
+
+  title: qsTr("Weather Forecast")
+
   width: ScreenInfo.width
   height: ScreenInfo.height
 
-  Label {
-    id: label
-
-    text: qsTr("You are on Search Page.")
-    anchors.centerIn: parent
-  }
-
-  Button {
-    id: button
-
-    text: qsTr("check")
+  ColumnLayout {
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: label.bottom
-    anchors.topMargin: -10
-    onClicked: {
-      weatherApi.requestData()
+    anchors.top: parent.top
+    anchors.topMargin: 10
+
+    SearchBox {
+      id: searchBox
+
+      placeholderText: "Search"
+
+      Layout.preferredHeight: 35
+
+      onTextEdited: console.log(text)
     }
+
+    // results
   }
 
   Connections {
