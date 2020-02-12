@@ -34,22 +34,6 @@ CWeatherApi::CWeatherApi(QObject* parent)
 CWeatherApi::~CWeatherApi() = default;
 
 //=============================================================================
-void CWeatherApi::requestData()
-{
-    qDebug() << "Hello World";
-    const auto Request =
-        QNetworkRequest{{"https://www.metaweather.com/api/location/44418/"}};
-    m_NetReply.reset(m_NetAccessManager->get(Request));
-
-    connect(m_NetReply.get(), &QNetworkReply::readyRead, this, [this]() {
-        m_DataBuffer = m_NetReply->readAll();
-        emit dataReady(m_DataBuffer);
-    });
-    connect(m_NetReply.get(), &QNetworkReply::finished, this,
-            &CWeatherApi::cleanUp);
-}
-
-//=============================================================================
 void CWeatherApi::requestLocation(const QString& desiredLocation)
 {
     const auto Request =

@@ -43,14 +43,6 @@ public:
 
 signals:
     /**
-     * @brief This signal is emitted whe the requested data is ready (i.e. has
-     * been received from the API)
-     *
-     * @param data The data that was received
-     */
-    void dataReady(QString mydata);
-
-    /**
      * @brief This signal is emitted when the requested location was retrieved
      * from the API. In case there was no matching location (i.e. the API does not
      * provide weather data about the requested location) then @a locations will
@@ -62,11 +54,6 @@ signals:
     void locationsReady(QStringList locations);
 
 public slots:
-    /**
-     * @brief Request new data by issueing a call to the weather API.
-     */
-    void requestData();
-
     /**
      * @brief Request all locations provided by the weather API that are near
      * the @a desiredLocation
