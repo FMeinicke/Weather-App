@@ -33,6 +33,7 @@ Page {
       Layout.preferredHeight: 35
 
       onTextEdited: weatherApi.requestLocation(text)
+      onTextChanged: locationResultsModel.clear()
     }
 
     ListView {
@@ -57,17 +58,17 @@ Page {
       model: ListModel {
         id: locationResultsModel
 // dummy elements:
-//        ListElement { name: "San Francisco" }
-//        ListElement { name: "San Diego" }
-//        ListElement { name: "San Jose" }
-//        ListElement { name: "San Antonio" }
-//        ListElement { name: "Santa Cruz" }
-//        ListElement { name: "Santiago" }
-//        ListElement { name: "Santorini" }
-//        ListElement { name: "Santander" }
-//        ListElement { name: "Busan" }
-//        ListElement { name: "Santa Cruz de Tenerife" }
-//        ListElement { name: "Santa Fe" }
+        //ListElement { name: "San Francisco" }
+        //ListElement { name: "San Diego" }
+        //ListElement { name: "San Jose" }
+        //ListElement { name: "San Antonio" }
+        //ListElement { name: "Santa Cruz" }
+        //ListElement { name: "Santiago" }
+        //ListElement { name: "Santorini" }
+        //ListElement { name: "Santander" }
+        //ListElement { name: "Busan" }
+        //ListElement { name: "Santa Cruz de Tenerife" }
+        //ListElement { name: "Santa Fe" }
       }
 
       delegate: Button {
@@ -115,4 +116,3 @@ Page {
     }
   }
 }
-
