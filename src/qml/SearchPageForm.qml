@@ -58,17 +58,17 @@ Page {
       model: ListModel {
         id: locationResultsModel
 // dummy elements:
-        //ListElement { name: "San Francisco" }
-        //ListElement { name: "San Diego" }
-        //ListElement { name: "San Jose" }
-        //ListElement { name: "San Antonio" }
-        //ListElement { name: "Santa Cruz" }
-        //ListElement { name: "Santiago" }
-        //ListElement { name: "Santorini" }
-        //ListElement { name: "Santander" }
-        //ListElement { name: "Busan" }
-        //ListElement { name: "Santa Cruz de Tenerife" }
-        //ListElement { name: "Santa Fe" }
+        //ListElement { "location": "San Francisco" }
+        //ListElement { "location": "San Diego" }
+        //ListElement { "location": "San Jose" }
+        //ListElement { "location": "San Antonio" }
+        //ListElement { "location": "Santa Cruz" }
+        //ListElement { "location": "Santiago" }
+        //ListElement { "location": "Santorini" }
+        //ListElement { "location": "Santander" }
+        //ListElement { "location": "Busan" }
+        //ListElement { "location": "Santa Cruz de Tenerife" }
+        //ListElement { "location": "Santa Fe" }
       }
 
       delegate: Button {
@@ -80,7 +80,8 @@ Page {
         width: locationResults.width - root.padding
 
         display: Button.IconOnly
-        text: name
+        text: location
+
         contentItem: Row {
           spacing: root.padding
 
@@ -111,7 +112,7 @@ Page {
     onLocationsReady: {
       for (let location of locations) {
         console.log(location)
-        locationResultsModel.append({"name": location})
+        locationResultsModel.append({"location": location})
       }
     }
   }
