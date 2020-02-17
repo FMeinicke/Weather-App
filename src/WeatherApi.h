@@ -29,6 +29,9 @@ class QNetworkReply;
 class CWeatherApi : public QObject
 {
     Q_OBJECT
+
+    Q_PROPERTY(QString locationName MEMBER m_LocationName READ locationName WRITE
+                   setLocationName NOTIFY locationNameChanged)
 public:
     /**
      * @brief Construct a new CWeatherApi object
@@ -42,6 +45,13 @@ public:
      */
     ~CWeatherApi() override;
 
+    /**
+     * @brief Get the current location's name
+     *
+     * @return QString The current location's name
+     */
+    QString locationName() const;
+
 signals:
     /**
      * @brief This signal is emitted when the requested location was retrieved
@@ -53,6 +63,8 @@ signals:
      * @a requestLocation. Empty if there was no match.
      */
     void locationsReady(QStringList locations);
+
+    void locationNameChanged();
 
 public slots:
     /**
@@ -80,11 +92,19 @@ private slots:
     void cleanUp();
 
 private:
+    /**
+     * @brief Set the current location's name
+     *
+     * @param locationName The new name of the current location
+     */
+    void setLocationName(const QString& locationName);
+
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};
-    QByteArray m_DataBuffer{}; ///< data buffer for the response of the API call
-    QJsonArray m_LocationsJsonArray{}; ///< JSON array with possible locations
-    int m_LocationWOEID{}; ///< The location's WOEID (Where On Earth ID)
+    QByteArray m_DataBuffer{};  ///< data buffer for the response of the API call
+    QJsonArray m_LocationsJsonArray{};  ///< JSON array with possible locations
+    int m_LocationWOEID{};  ///< The location's WOEID (Where On Earth ID)
+    QString m_LocationName{};
 };
 
 #endif  // WEATHER_API_H

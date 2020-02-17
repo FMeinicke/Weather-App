@@ -58,7 +58,7 @@ void CWeatherApi::requestLocation(const QString& desiredLocation)
                  [&Locations](const QJsonValue& val) {
                      const auto Location = val.toObject();
                      Locations.append(Location["title"].toString());
-                  });
+                 });
         emit locationsReady(Locations);
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
@@ -70,6 +70,7 @@ void CWeatherApi::setLocationByIndex(int index)
 {
     const auto Location = m_LocationsJsonArray[index].toObject();
     m_LocationWOEID = Location["woeid"].toInt();
+    setLocationName(Location["title"].toString());
 }
 
 //=============================================================================
@@ -78,4 +79,17 @@ void CWeatherApi::cleanUp()
     m_NetReply->deleteLater();
     m_NetReply = nullptr;
     m_DataBuffer.clear();
+}
+
+//=============================================================================
+QString CWeatherApi::locationName() const
+{
+    return m_LocationName;
+}
+
+//=============================================================================
+void CWeatherApi::setLocationName(const QString& locationName)
+{
+    m_LocationName = locationName;
+    emit locationNameChanged();
 }
