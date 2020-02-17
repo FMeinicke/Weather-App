@@ -5,13 +5,38 @@
 /// \brief
 //============================================================================
 import QtQuick 2.12
+import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
+import QtQuick.Layouts 1.12
 
 Page {
   title: qsTr("Weather Forecast")
 
-  Label {
-    text: qsTr("You are on the home page.")
-    anchors.centerIn: parent
+  width: ScreenInfo.width
+  height: ScreenInfo.height
+
+  GridLayout {
+    anchors.horizontalCenter: parent.horizontalCenter
+    Image {
+      Layout.row: 0
+      Layout.column: 1
+      Layout.alignment: Qt.AlignRight
+
+      source: "qrc:/icons/double_arrow_black"
+      sourceSize.height: 50
+      sourceSize.width: height
+      fillMode: Image.PreserveAspectFit
+      rotation: 270
+    }
+
+    Label {
+      Layout.row: 1
+      Layout.columnSpan: 2
+      Layout.fillWidth: true
+
+      text: qsTr("Tap the search icon above to search a location.")
+      font.pointSize: Qt.application.font.pointSize * 1.1
+      horizontalAlignment: Text.AlignHCenter
+    }
   }
 }
