@@ -11,7 +11,6 @@
 #include "WeatherApi.h"
 
 #include <QDebug>
-#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
@@ -48,14 +47,14 @@ void CWeatherApi::requestLocation(const QString& desiredLocation)
         if (ResponseJsonDoc.isNull())
         {
             qWarning() << "Could not parse received JSON data! The following "
-                          "error occured:"
+                          "error occurred:"
                        << Error.errorString();
         }
 
-        const auto LocationsJsonArray = ResponseJsonDoc.array();
+        m_LocationsJsonArray = ResponseJsonDoc.array();
 
         auto Locations = QStringList();
-        for_each(begin(LocationsJsonArray), end(LocationsJsonArray),
+        for_each(begin(m_LocationsJsonArray), end(m_LocationsJsonArray),
                  [&Locations](const QJsonValue& val) {
                      const auto Location = val.toObject();
                      Locations.append(Location["title"].toString());
@@ -64,6 +63,13 @@ void CWeatherApi::requestLocation(const QString& desiredLocation)
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
             &CWeatherApi::cleanUp);
+}
+
+//=============================================================================
+void CWeatherApi::setLocationByIndex(int index)
+{
+    const auto Location = m_LocationsJsonArray[index].toObject();
+    m_LocationWOEID = Location["woeid"].toInt();
 }
 
 //=============================================================================

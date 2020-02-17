@@ -76,6 +76,8 @@ Page {
 
         flat: true
 
+        onClicked: weatherApi.setLocationByIndex(index)
+
         height: 30
         width: locationResults.width - root.padding
 

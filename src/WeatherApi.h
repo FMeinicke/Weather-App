@@ -11,6 +11,7 @@
 //                                   INCLUDES
 //============================================================================
 #include <QByteArray>
+#include <QJsonArray>
 #include <QObject>
 #include <QString>
 
@@ -62,6 +63,16 @@ public slots:
      */
     void requestLocation(const QString& desiredLocation);
 
+    /**
+     * @brief Set the location that should be used for all further API calls and
+     * is identified by the index @a index with respect to the current list of
+     * possible locations.
+     *
+     * @param index The index of the location with respect to the current list of
+     * possible locations
+     */
+    void setLocationByIndex(int index);
+
 private slots:
     /**
      * @brief Clean up after each call to the weather API
@@ -71,7 +82,9 @@ private slots:
 private:
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};
-    QByteArray m_DataBuffer{};
+    QByteArray m_DataBuffer{}; ///< data buffer for the response of the API call
+    QJsonArray m_LocationsJsonArray{}; ///< JSON array with possible locations
+    int m_LocationWOEID{}; ///< The location's WOEID (Where On Earth ID)
 };
 
 #endif  // WEATHER_API_H
