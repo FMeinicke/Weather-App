@@ -50,6 +50,7 @@ void CWeatherApi::requestLocation(const QString& desiredLocation)
                      const auto Location = val.toObject();
                      Locations.append(Location["title"].toString());
                  });
+        emit locationsReady(Locations);
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
             &CWeatherApi::cleanUp);
@@ -82,7 +83,7 @@ void CWeatherApi::requestWeatherData()
 //=============================================================================
 void CWeatherApi::onReadyRead()
 {
-    m_DataBuffer = m_NetReply->readAll();
+    m_DataBuffer += m_NetReply->readAll();
     QJsonParseError Error;
     m_ResponseJsonDoc = QJsonDocument::fromJson(m_DataBuffer, &Error);
     if (m_ResponseJsonDoc.isNull())
