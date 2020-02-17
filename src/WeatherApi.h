@@ -11,7 +11,7 @@
 //                                   INCLUDES
 //============================================================================
 #include <QByteArray>
-#include <QJsonArray>
+#include <QJsonDocument>
 #include <QObject>
 #include <QString>
 
@@ -64,7 +64,17 @@ signals:
      */
     void locationsReady(QStringList locations);
 
+    /**
+     * @brief This signal notifies about changes in the @a m_LocationName member.
+     */
     void locationNameChanged();
+
+    /**
+     * @internal
+     * @brief This signal is emitted every time the internal JSON doc has been
+     * created from the raw JSON data and is now ready to be processed further.
+     */
+    void jsonReady();
 
 public slots:
     /**
@@ -87,6 +97,14 @@ public slots:
 
 private slots:
     /**
+     * @brief Reads the data from the network reply into the internal buffer and
+     * constructs a JSON document from the data. This JSON doc is saved in the @a
+     * m_ResponseJsonDoc member. Emits @a jsonReady indcating that the JSON doc
+     * has been successfully constructed and can be processed further.
+     */
+    void onReadyRead();
+
+    /**
      * @brief Clean up after each call to the weather API
      */
     void cleanUp();
@@ -102,7 +120,7 @@ private:
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};
     QByteArray m_DataBuffer{};  ///< data buffer for the response of the API call
-    QJsonArray m_LocationsJsonArray{};  ///< JSON array with possible locations
+    QJsonDocument m_ResponseJsonDoc{};  ///< JSON doc with the API reponse
     int m_LocationWOEID{};  ///< The location's WOEID (Where On Earth ID)
     QString m_LocationName{};
 };
