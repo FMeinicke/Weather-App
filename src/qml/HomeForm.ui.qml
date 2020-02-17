@@ -2,7 +2,7 @@
 /// \file   HomeForm.ui.qml
 /// \author Florian Meinicke <florian.meinicke@t-online.de>
 /// \date   06/02/2020
-/// \brief
+/// \brief  The home and landing page of the app
 //============================================================================
 import QtQuick 2.12
 import QtQuick.Window 2.3
@@ -10,12 +10,28 @@ import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
 Page {
+  id: root
+
   title: qsTr("Weather Forecast")
 
   width: ScreenInfo.width
   height: ScreenInfo.height
 
+  state: "first-time"
+  states: [
+    State {
+      name: "first-time"
+      PropertyChanges {
+        target: firstTimeDescriptionLayout
+        visible: true
+      }
+    }
+  ]
+
   GridLayout {
+    id: firstTimeDescriptionLayout
+    visible: false
+
     anchors.horizontalCenter: parent.horizontalCenter
     Image {
       Layout.row: 0
