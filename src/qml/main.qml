@@ -1,7 +1,7 @@
 //============================================================================
 /// \file   main.qml
 /// \author Florian Meinicke <florian.meinicke@t-online.de>
-/// \date   06.02.2020
+/// \date   06/02/2020
 /// \brief  The starting screen of the app
 //============================================================================
 import QtQuick 2.12
