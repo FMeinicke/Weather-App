@@ -53,6 +53,7 @@ ApplicationWindow {
 
         icon.source: "qrc:/icons/search_white"
         icon.color: 'transparent'
+        Layout.alignment: Qt.AlignRight
         onClicked: {
           // prevent "SearchPageForm" to be pushed onto the stack multiple times
           if (!currentSearchPage || currentSearchPage != stackView.currentItem) {

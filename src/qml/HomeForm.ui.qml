@@ -42,7 +42,7 @@ Page {
       sourceSize.height: 50
       sourceSize.width: height
       fillMode: Image.PreserveAspectFit
-      rotation: 270
+      rotation: -60
     }
 
     Label {
