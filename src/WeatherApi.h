@@ -95,6 +95,11 @@ public slots:
      */
     void setLocationByIndex(int index);
 
+    /**
+     * @brief Request weather data about the currently selected location
+     */
+    void requestWeatherData();
+
 private slots:
     /**
      * @brief Reads the data from the network reply into the internal buffer and

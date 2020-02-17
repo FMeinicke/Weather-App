@@ -64,6 +64,22 @@ void CWeatherApi::setLocationByIndex(int index)
 }
 
 //=============================================================================
+void CWeatherApi::requestWeatherData()
+{
+    const auto Request =
+        QNetworkRequest{BASE_URL + QString::number(m_LocationWOEID)};
+    m_NetReply.reset(m_NetAccessManager->get(Request));
+
+    connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
+            &CWeatherApi::onReadyRead);
+    connect(this, &CWeatherApi::jsonReady, this, [this]() {
+        qDebug() << m_ResponseJsonDoc;
+    });
+    connect(m_NetReply.get(), &QNetworkReply::finished, this,
+            &CWeatherApi::cleanUp);
+}
+
+//=============================================================================
 void CWeatherApi::onReadyRead()
 {
     m_DataBuffer = m_NetReply->readAll();
