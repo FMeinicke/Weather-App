@@ -49,9 +49,16 @@ ApplicationWindow {
       ToolButton {
         id: searchButton
 
+        property Item currentSearchPage
+
         icon.source: "qrc:/icons/search_white"
         icon.color: 'transparent'
-        onClicked: stackView.push("SearchPageForm.qml")
+        onClicked: {
+          // prevent "SearchPageForm" to be pushed onto the stack multiple times
+          if (!currentSearchPage || currentSearchPage != stackView.currentItem) {
+            currentSearchPage = stackView.push("SearchPageForm.qml")
+          }
+        }
       }
     }
   }
@@ -91,7 +98,8 @@ ApplicationWindow {
   }
 }
 //-----------------------------------------------------------------------------
-// for SwipeView//ApplicationWindow {
+// for SwipeView
+//ApplicationWindow {
 //  visible: true
 //  width: 640
 //  height: 480
