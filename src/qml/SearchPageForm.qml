@@ -8,6 +8,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
+import WeatherApi.Types 1.0
 
 Page {
   id: root
@@ -32,7 +33,7 @@ Page {
 
       Layout.preferredHeight: 35
 
-      onTextEdited: weatherApi.requestLocation(text)
+      onTextEdited: WeatherApi.requestLocation(text)
       onTextChanged: locationResultsModel.clear()
     }
 
@@ -77,7 +78,7 @@ Page {
         flat: true
 
         onClicked: {
-          weatherApi.setLocationByIndex(index)
+          WeatherApi.setLocationByIndex(index)
           stackView.pop()
         }
 
@@ -113,7 +114,7 @@ Page {
   }
 
   Connections {
-    target: weatherApi
+    target: WeatherApi
     onLocationsReady: {
       for (let location of locations) {
         console.log(location)
