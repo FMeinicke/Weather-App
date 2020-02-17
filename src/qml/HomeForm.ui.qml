@@ -6,18 +6,18 @@
 //============================================================================
 import QtQuick 2.12
 import QtQuick.Window 2.3
-import QtQuick.Controls 2.5
+import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
 
 Page {
   id: root
 
-  title: qsTr("Weather Forecast")
+  title: state === "" ? weatherApi.locationName : qsTr("Weather Forecast")
 
   width: ScreenInfo.width
   height: ScreenInfo.height
 
-  state: "first-time"
+  state: weatherApi.locationName.length ? "" : "first-time"
   states: [
     State {
       name: "first-time"
@@ -25,11 +25,16 @@ Page {
         target: firstTimeDescriptionLayout
         visible: true
       }
+      PropertyChanges {
+        target: weatherDataView
+        visible: false
+      }
     }
   ]
 
   GridLayout {
     id: firstTimeDescriptionLayout
+
     visible: false
 
     anchors.horizontalCenter: parent.horizontalCenter
@@ -53,6 +58,24 @@ Page {
       text: qsTr("Tap the search icon above to search a location.")
       font.pointSize: Qt.application.font.pointSize * 1.1
       horizontalAlignment: Text.AlignHCenter
+    }
+  }
+
+  ScrollView {
+    id: weatherDataView
+
+    anchors.fill: parent
+
+    ListView {
+      width: parent.width
+      model: 5
+      delegate: WeatherDataDelegate {
+        day: "Today " + (index + 1)
+//        weatherState:
+//        theTemp:
+//        minTemp:
+//        maxTemp:
+      }
     }
   }
 }

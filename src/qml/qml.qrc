@@ -6,5 +6,6 @@
         <file>SearchPageForm.qml</file>
         <file>Page2Form.ui.qml</file>
         <file>SearchBox.qml</file>
+        <file>WeatherDataDelegate.qml</file>
     </qresource>
 </RCC>
