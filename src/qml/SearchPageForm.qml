@@ -78,6 +78,7 @@ Page {
 
         onClicked: {
           weatherApi.setLocationByIndex(index)
+          weatherApi.requestWeatherData()
           stackView.pop()
         }
 
