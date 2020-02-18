@@ -79,7 +79,9 @@ Page {
         onClicked: {
           weatherApi.setLocationByIndex(index)
           weatherApi.requestWeatherData()
-          stackView.pop()
+          // replace the HomeForm with the WeatherForecastPageForm
+          stackView.replace(stackView.get(0), "WeatherForecastPageForm.ui.qml",
+                            StackView.PopTransition)
         }
 
         height: 30
