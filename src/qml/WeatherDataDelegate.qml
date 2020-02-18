@@ -54,7 +54,7 @@ ItemDelegate {
       Label {
         id: lblTheTemp
 
-        text: qsTr("%1 °C").arg(root.theTemp)
+        text: qsTr("%1 °C").arg(root.theTemp.toPrecision(2))
         font.pointSize: Qt.application.font.pointSize * 1.4
 
         Layout.row: 1
@@ -73,7 +73,7 @@ ItemDelegate {
       Label {
         id: lblMinTemp
 
-        text: qsTr("Min: %1 °C").arg(root.minTemp)
+        text: qsTr("Min: %1 °C").arg(root.minTemp.toPrecision(2))
 
         Layout.row: 2
       }
@@ -81,7 +81,7 @@ ItemDelegate {
       Label {
         id: lblMaxTemp
 
-        text: qsTr("Max: %1 °C").arg(root.maxTemp)
+        text: qsTr("Max: %1 °C").arg(root.maxTemp.toPrecision(2))
 
         Layout.row: 3
       }
