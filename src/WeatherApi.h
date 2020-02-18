@@ -30,8 +30,8 @@ class CWeatherApi : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(QString locationName MEMBER m_LocationName READ locationName WRITE
-                   setLocationName NOTIFY locationNameChanged)
+    Q_PROPERTY(
+        QString locationName MEMBER m_LocationName NOTIFY locationNameChanged)
 public:
     /**
      * @brief Construct a new CWeatherApi object

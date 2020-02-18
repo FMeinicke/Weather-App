@@ -20,15 +20,12 @@ class CWeatherData : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(
-        QString weatherStateName MEMBER m_WeatherStateName READ weatherStateName
-            WRITE setWeatherStateName NOTIFY weatherStateNameChanged)
-    Q_PROPERTY(qreal theTemp MEMBER m_theTemp READ theTemp WRITE setTheTemp NOTIFY
-                   theTempChanged)
-    Q_PROPERTY(qreal minTemp MEMBER m_minTemp READ minTemp WRITE setMinTemp NOTIFY
-                   minTempChanged)
-    Q_PROPERTY(qreal minTemp MEMBER m_minTemp READ minTemp WRITE setMinTemp NOTIFY
-                   minTempChanged)
+    Q_PROPERTY(QString weatherStateName MEMBER m_WeatherStateName NOTIFY
+                   weatherStateNameChanged)
+    Q_PROPERTY(qreal theTemp MEMBER m_TheTemp NOTIFY theTempChanged)
+    Q_PROPERTY(qreal minTemp MEMBER m_MinTemp NOTIFY minTempChanged)
+    Q_PROPERTY(qreal maxTemp MEMBER m_MaxTemp NOTIFY maxTempChanged)
+
 public:
     explicit CWeatherData(QObject* parent = nullptr);
 
