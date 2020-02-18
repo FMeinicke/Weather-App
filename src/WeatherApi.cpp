@@ -68,7 +68,7 @@ void CWeatherApi::setLocationByIndex(int index)
 void CWeatherApi::requestWeatherData()
 {
     const auto Request =
-        QNetworkRequest{BASE_URL + QString::number(m_LocationWOEID)};
+        QNetworkRequest{BASE_URL + QString::number(m_LocationWOEID) + "/"};
     m_NetReply.reset(m_NetAccessManager->get(Request));
 
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
