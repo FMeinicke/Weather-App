@@ -33,7 +33,6 @@ Page {
       Layout.preferredHeight: 35
 
       onTextEdited: weatherApi.requestLocation(text)
-      onTextChanged: locationResultsModel.clear()
     }
 
     ListView {
@@ -118,6 +117,7 @@ Page {
   Connections {
     target: weatherApi
     onLocationsReady: {
+      locationResultsModel.clear()
       for (let location of locations) {
         console.log(location)
         locationResultsModel.append({"location": location})

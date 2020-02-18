@@ -12,7 +12,6 @@ FocusScope {
 
   property string placeholderText: "Type something..."
   signal textEdited(string text)
-  signal textChanged
 
   width: 250
   height: 28
@@ -58,7 +57,6 @@ FocusScope {
     focus: true
     selectByMouse: true
     onTextEdited: root.textEdited(text)
-    onTextChanged: root.textChanged()
   }
 
   Image {
