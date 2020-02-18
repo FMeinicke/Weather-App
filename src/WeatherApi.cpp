@@ -26,7 +26,8 @@ static const auto BASE_URL =
 CWeatherApi::CWeatherApi(QObject* parent)
     : QObject{parent},
       m_NetAccessManager{make_unique<QNetworkAccessManager>(this)},
-      m_NetReply{nullptr}
+      m_NetReply{nullptr},
+      m_WeatherData{make_unique<CWeatherData>(this)}
 {}
 
 //=============================================================================
@@ -74,7 +75,15 @@ void CWeatherApi::requestWeatherData()
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
             &CWeatherApi::onReadyRead);
     connect(this, &CWeatherApi::jsonReady, this, [this]() {
-        qDebug() << m_ResponseJsonDoc;
+        const auto WeatherDataJsonArray =
+            m_ResponseJsonDoc.object().value("consolidated_weather").toArray();
+        const auto TodaysWeatherData = WeatherDataJsonArray.first().toObject();
+        m_WeatherData->setWeatherStateName(
+            TodaysWeatherData["weather_state_name"].toString());
+        m_WeatherData->setTheTemp(TodaysWeatherData["the_temp"].toDouble());
+        m_WeatherData->setMinTemp(TodaysWeatherData["min_temp"].toDouble());
+        m_WeatherData->setMaxTemp(TodaysWeatherData["max_temp"].toDouble());
+        emit weatherDataChanged();
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
             &CWeatherApi::cleanUp);
@@ -115,4 +124,10 @@ void CWeatherApi::setLocationName(const QString& locationName)
 {
     m_LocationName = locationName;
     emit locationNameChanged();
+}
+
+//=============================================================================
+CWeatherData* CWeatherApi::weatherData() const
+{
+    return m_WeatherData.get();
 }
