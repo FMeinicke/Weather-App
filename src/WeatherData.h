@@ -109,9 +109,9 @@ signals:
 
 private:
     QString m_WeatherStateName{};
-    qreal m_TheTemp;
-    qreal m_MinTemp;
-    qreal m_MaxTemp;
+    qreal m_TheTemp{};
+    qreal m_MinTemp{};
+    qreal m_MaxTemp{};
 };
 
 #endif  // CWEATHERDATA_H
