@@ -68,13 +68,20 @@ void CWeatherApi::setLocationByIndex(int index)
 void CWeatherApi::requestWeatherData()
 {
     const auto Request =
-        QNetworkRequest{BASE_URL + QString::number(m_LocationWOEID)};
+        QNetworkRequest{BASE_URL + QString::number(m_LocationWOEID) + "/"};
     m_NetReply.reset(m_NetAccessManager->get(Request));
 
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
             &CWeatherApi::onReadyRead);
     connect(this, &CWeatherApi::jsonReady, this, [this]() {
-        qDebug() << m_ResponseJsonDoc;
+        const auto WeatherDataJsonArray =
+            m_ResponseJsonDoc.object().value("consolidated_weather").toArray();
+        const auto TodaysWeatherData = WeatherDataJsonArray.first().toObject();
+        m_WeatherData.setWeatherStateName(TodaysWeatherData["weather_state_name"].toString());
+        m_WeatherData.setTheTemp(TodaysWeatherData["the_temp"].toInt());
+        m_WeatherData.setMinTemp(TodaysWeatherData["min_temp"].toInt());
+        m_WeatherData.setMaxTemp(TodaysWeatherData["max_temp"].toInt());
+        emit weatherDataChanged();
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
             &CWeatherApi::cleanUp);
@@ -115,4 +122,10 @@ void CWeatherApi::setLocationName(const QString& locationName)
 {
     m_LocationName = locationName;
     emit locationNameChanged();
+}
+
+//=============================================================================
+CWeatherData CWeatherApi::WeatherData() const
+{
+    return m_WeatherData;
 }

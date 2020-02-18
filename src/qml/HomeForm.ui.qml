@@ -70,11 +70,11 @@ Page {
       width: parent.width
       model: 5
       delegate: WeatherDataDelegate {
-        day: "Today " + (index + 1)
-//        weatherState:
-//        theTemp:
-//        minTemp:
-//        maxTemp:
+        day: weatherApi.weatherData.weatherStateName + (index + 1)
+        //        weatherState:
+        //        theTemp:
+        //        minTemp:
+        //        maxTemp:
       }
     }
   }

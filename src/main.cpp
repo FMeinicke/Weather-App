@@ -25,9 +25,7 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(
-        &engine,
-        &QQmlApplicationEngine::objectCreated,
-        &app,
+        &engine, &QQmlApplicationEngine::objectCreated, &app,
         [url](QObject* obj, const QUrl& objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
@@ -38,6 +36,9 @@ int main(int argc, char* argv[])
     // make C++ class available to QML
     CWeatherApi WeatherApi;
     engine.rootContext()->setContextProperty("weatherApi", &WeatherApi);
+    qmlRegisterUncreatableType<CWeatherData>("de.dhge.moco.fm.WeatherApp.Types",
+                                             1, 0, "WeatherData",
+                                             "Cannot create WeatherData object");
 
     return app.exec();
 }

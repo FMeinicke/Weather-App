@@ -15,6 +15,56 @@ CWeatherData::CWeatherData(QObject* parent) : QObject(parent)
 {}
 
 //=============================================================================
+CWeatherData::CWeatherData(const CWeatherData& rhs)
+    : m_WeatherStateName(rhs.m_WeatherStateName),
+      m_TheTemp(rhs.m_TheTemp),
+      m_MinTemp(rhs.m_MinTemp),
+      m_MaxTemp(rhs.m_MaxTemp)
+{}
+
+//=============================================================================
+CWeatherData::CWeatherData(CWeatherData&& rhs) noexcept
+    : m_WeatherStateName(rhs.m_WeatherStateName),
+      m_TheTemp(rhs.m_TheTemp),
+      m_MinTemp(rhs.m_MinTemp),
+      m_MaxTemp(rhs.m_MaxTemp)
+{}
+
+//=============================================================================
+CWeatherData& CWeatherData::operator=(const CWeatherData& rhs)
+{
+    m_WeatherStateName = rhs.m_WeatherStateName;
+    m_TheTemp = rhs.m_TheTemp;
+    m_MinTemp = rhs.m_MinTemp;
+    m_MaxTemp = rhs.m_MaxTemp;
+    return *this;
+}
+
+//=============================================================================
+CWeatherData& CWeatherData::operator=(CWeatherData&& rhs) noexcept
+{
+    m_WeatherStateName = rhs.m_WeatherStateName;
+    m_TheTemp = rhs.m_TheTemp;
+    m_MinTemp = rhs.m_MinTemp;
+    m_MaxTemp = rhs.m_MaxTemp;
+    return *this;
+}
+
+//=============================================================================
+bool CWeatherData::operator==(const CWeatherData& rhs) const
+{
+    return m_WeatherStateName == rhs.m_WeatherStateName
+           && m_TheTemp == rhs.m_TheTemp && m_MinTemp == rhs.m_MinTemp
+           && m_MaxTemp && rhs.m_MaxTemp;
+}
+
+//=============================================================================
+bool CWeatherData::operator!=(const CWeatherData& rhs) const
+{
+    return !(*this == rhs);
+}
+
+//=============================================================================
 QString CWeatherData::weatherStateName() const
 {
     return m_WeatherStateName;

@@ -10,6 +10,8 @@
 //============================================================================
 //                                   INCLUDES
 //============================================================================
+#include "WeatherData.h"
+
 #include <QByteArray>
 #include <QJsonDocument>
 #include <QObject>
@@ -32,6 +34,8 @@ class CWeatherApi : public QObject
 
     Q_PROPERTY(QString locationName MEMBER m_LocationName READ locationName WRITE
                    setLocationName NOTIFY locationNameChanged)
+    Q_PROPERTY(CWeatherData weatherData MEMBER m_WeatherData
+                   NOTIFY weatherDataChanged)
 public:
     /**
      * @brief Construct a new CWeatherApi object
@@ -51,6 +55,13 @@ public:
      * @return QString The current location's name
      */
     QString locationName() const;
+
+    /**
+     * @brief Get the weather data object corresponding to the current location
+     *
+     * @return CWeatherData The weather data for the current location
+     */
+    CWeatherData WeatherData() const;
 
 signals:
     /**
@@ -75,6 +86,11 @@ signals:
      * created from the raw JSON data and is now ready to be processed further.
      */
     void jsonReady();
+
+    /**
+     * @brief This signal notifies about changes in the @a m_WeatherData member
+     */
+    void weatherDataChanged();
 
 public slots:
     /**
@@ -128,6 +144,7 @@ private:
     QJsonDocument m_ResponseJsonDoc{};  ///< JSON doc with the API reponse
     int m_LocationWOEID{};  ///< The location's WOEID (Where On Earth ID)
     QString m_LocationName{};
+    CWeatherData m_WeatherData{};  ///< all the weather data (temp, wind, ...)
 };
 
 #endif  // WEATHER_API_H

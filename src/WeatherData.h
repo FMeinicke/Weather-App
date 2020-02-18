@@ -4,14 +4,15 @@
 /// \date   18/02/2020
 /// \brief  Declaration of the CWeatherData class.
 //============================================================================
+#ifndef CWEATHERDATA_H
+#define CWEATHERDATA_H
 
 //============================================================================
 //                                   INCLUDES
 //============================================================================
-#ifndef CWEATHERDATA_H
-#define CWEATHERDATA_H
-
 #include <QObject>
+
+
 /**
  * @brief The CWetherData class encapsulates the weather data (temperature,
  * weather state, wind speed, ...)
@@ -20,17 +21,45 @@ class CWeatherData : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(
-        QString weatherStateName MEMBER m_WeatherStateName READ weatherStateName
-            WRITE setWeatherStateName NOTIFY weatherStateNameChanged)
-    Q_PROPERTY(qreal theTemp MEMBER m_theTemp READ theTemp WRITE setTheTemp NOTIFY
-                   theTempChanged)
-    Q_PROPERTY(qreal minTemp MEMBER m_minTemp READ minTemp WRITE setMinTemp NOTIFY
-                   minTempChanged)
-    Q_PROPERTY(qreal minTemp MEMBER m_minTemp READ minTemp WRITE setMinTemp NOTIFY
-                   minTempChanged)
+    Q_PROPERTY(QString weatherStateName MEMBER m_WeatherStateName
+                   NOTIFY weatherStateNameChanged)
+    Q_PROPERTY(qreal theTemp MEMBER m_TheTemp NOTIFY theTempChanged)
+    Q_PROPERTY(qreal minTemp MEMBER m_MinTemp NOTIFY minTempChanged)
+    Q_PROPERTY(qreal maxTemp MEMBER m_MaxTemp NOTIFY maxTempChanged)
+
 public:
     explicit CWeatherData(QObject* parent = nullptr);
+
+    /**
+     * @brief Copy c'tor
+     */
+    CWeatherData(const CWeatherData& rhs);
+
+    /**
+     * @brief D'tor
+     */
+    ~CWeatherData() = default;
+
+   /**
+    * @brief Move c'tor
+    */
+   CWeatherData(CWeatherData&& rhs) noexcept;
+
+    /**
+     * @brief Copy assignment operator
+     */
+    CWeatherData& operator=(const CWeatherData& rhs);
+
+   /**
+    * @brief Move assignment operator
+    */
+   CWeatherData& operator=(CWeatherData&& rhs) noexcept;
+
+    /**
+     * @brief Comparison operators
+     */
+   bool operator==(const CWeatherData& rhs) const;
+   bool operator!=(const CWeatherData& rhs) const;
 
     /**
      * @brief Get the weather state name
@@ -116,5 +145,8 @@ private:
     qreal m_MinTemp;
     qreal m_MaxTemp;
 };
+
+Q_DECLARE_TYPEINFO(CWeatherData, Q_MOVABLE_TYPE);
+Q_DECLARE_METATYPE(CWeatherData);
 
 #endif  // CWEATHERDATA_H
