@@ -24,6 +24,7 @@
 //=============================================================================
 class QNetworkAccessManager;
 class QNetworkReply;
+class QNetworkRequest;
 
 /**
  * @brief The CWeatherApi class encapsulates all calls to the Weather REST-API
@@ -141,6 +142,7 @@ private:
 
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};
+    std::unique_ptr<QNetworkRequest> m_NetRequest{};
     QByteArray m_DataBuffer{};  ///< data buffer for the response of the API call
     QJsonDocument m_ResponseJsonDoc{};  ///< JSON doc with the API reponse
     int m_LocationWOEID{};  ///< The location's WOEID (Where On Earth ID)

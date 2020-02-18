@@ -27,18 +27,33 @@ CWeatherApi::CWeatherApi(QObject* parent)
     : QObject{parent},
       m_NetAccessManager{make_unique<QNetworkAccessManager>(this)},
       m_NetReply{nullptr},
+      m_NetRequest{make_unique<QNetworkRequest>()},
       m_WeatherData{make_unique<CWeatherData>(this)}
-{}
+{
+    m_NetRequest->setAttribute(QNetworkRequest::RedirectPolicyAttribute,
+                               QNetworkRequest::NoLessSafeRedirectPolicy);
+}
 
 //=============================================================================
 CWeatherApi::~CWeatherApi() = default;
 
 //=============================================================================
+QString CWeatherApi::locationName() const
+{
+    return m_LocationName;
+}
+
+//=============================================================================
+CWeatherData* CWeatherApi::weatherData() const
+{
+    return m_WeatherData.get();
+}
+
+//=============================================================================
 void CWeatherApi::requestLocation(const QString& desiredLocation)
 {
-    const auto Request =
-        QNetworkRequest{BASE_URL + "search/?query=" + desiredLocation};
-    m_NetReply.reset(m_NetAccessManager->get(Request));
+    m_NetRequest->setUrl({BASE_URL + "search/?query=" + desiredLocation});
+    m_NetReply.reset(m_NetAccessManager->get(*m_NetRequest));
 
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
             &CWeatherApi::onReadyRead);
@@ -68,9 +83,8 @@ void CWeatherApi::setLocationByIndex(int index)
 //=============================================================================
 void CWeatherApi::requestWeatherData()
 {
-    const auto Request =
-        QNetworkRequest{BASE_URL + QString::number(m_LocationWOEID) + "/"};
-    m_NetReply.reset(m_NetAccessManager->get(Request));
+    m_NetRequest->setUrl({BASE_URL + QString::number(m_LocationWOEID)});
+    m_NetReply.reset(m_NetAccessManager->get(*m_NetRequest));
 
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
             &CWeatherApi::onReadyRead);
@@ -114,20 +128,8 @@ void CWeatherApi::cleanUp()
 }
 
 //=============================================================================
-QString CWeatherApi::locationName() const
-{
-    return m_LocationName;
-}
-
-//=============================================================================
 void CWeatherApi::setLocationName(const QString& locationName)
 {
     m_LocationName = locationName;
     emit locationNameChanged();
-}
-
-//=============================================================================
-CWeatherData* CWeatherApi::weatherData() const
-{
-    return m_WeatherData.get();
 }
