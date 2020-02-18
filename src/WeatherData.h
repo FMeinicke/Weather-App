@@ -4,14 +4,14 @@
 /// \date   18/02/2020
 /// \brief  Declaration of the CWeatherData class.
 //============================================================================
+#ifndef CWEATHERDATA_H
+#define CWEATHERDATA_H
 
 //============================================================================
 //                                   INCLUDES
 //============================================================================
-#ifndef CWEATHERDATA_H
-#define CWEATHERDATA_H
-
 #include <QObject>
+
 /**
  * @brief The CWetherData class encapsulates the weather data (temperature,
  * weather state, wind speed, ...)
