@@ -22,6 +22,10 @@ using namespace std;
 
 static const auto BASE_URL =
     QStringLiteral("https://www.metaweather.com/api/location/");
+static const auto LAST_LOCATION_NAME_SETTINGS_KEY =
+    QStringLiteral("last_location_name");
+static const auto LAST_LOCATION_WOEID_SETTINGS_KEY =
+    QStringLiteral("last_location_woeid");
 
 //=============================================================================
 CWeatherApi::CWeatherApi(QObject* parent)
@@ -37,7 +41,11 @@ CWeatherApi::CWeatherApi(QObject* parent)
 }
 
 //=============================================================================
-CWeatherApi::~CWeatherApi() = default;
+CWeatherApi::~CWeatherApi()
+{
+    m_Settings->setValue(LAST_LOCATION_NAME_SETTINGS_KEY, m_LocationName);
+    m_Settings->setValue(LAST_LOCATION_WOEID_SETTINGS_KEY, m_LocationWOEID);
+}
 
 //=============================================================================
 QString CWeatherApi::locationName() const
