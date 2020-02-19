@@ -94,7 +94,15 @@ ApplicationWindow {
 
   StackView {
     id: stackView
-    initialItem: "HomeForm.ui.qml"
+    initialItem: "WeatherForecastPageForm.ui.qml"
     anchors.fill: parent
+  }
+
+  /**
+   * @brief Replaces the WeatherForecastPageForm with the HomeForm in case the
+   * app has been started for the first time to show the landing page.
+   */
+  function setFirstStartPage() {
+    stackView.replace("HomeForm.ui.qml");
   }
 }
