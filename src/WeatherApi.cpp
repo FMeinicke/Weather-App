@@ -38,6 +38,17 @@ CWeatherApi::CWeatherApi(QObject* parent)
 {
     m_NetRequest->setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                                QNetworkRequest::NoLessSafeRedirectPolicy);
+
+    // load last location's weather data
+    const auto LastLocationName =
+        m_Settings->value(LAST_LOCATION_NAME_SETTINGS_KEY).toString();
+    if (!LastLocationName.isEmpty())
+    {
+        setLocationName(LastLocationName);
+        m_LocationWOEID =
+            m_Settings->value(LAST_LOCATION_WOEID_SETTINGS_KEY).toInt();
+        requestWeatherData();
+    }
 }
 
 //=============================================================================
