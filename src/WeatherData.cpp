@@ -28,6 +28,20 @@ void CWeatherData::setWeatherStateName(const QString& weatherStateName)
 }
 
 //=============================================================================
+QString CWeatherData::weatherStateAbbreviation() const
+{
+    return m_WeatherStateName;
+}
+
+//=============================================================================
+void CWeatherData::setWeatherStateAbbreviation(
+    const QString& weatherStateAbbreviation)
+{
+    m_WeatherStateAbbreviation = weatherStateAbbreviation;
+    emit weatherStateAbbreviationChanged();
+}
+
+//=============================================================================
 qreal CWeatherData::theTemp() const
 {
     return m_TheTemp;
