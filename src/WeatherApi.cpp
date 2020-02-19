@@ -16,6 +16,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QSettings>
 
 using namespace std;
 
@@ -28,7 +29,8 @@ CWeatherApi::CWeatherApi(QObject* parent)
       m_NetAccessManager{make_unique<QNetworkAccessManager>(this)},
       m_NetReply{nullptr},
       m_NetRequest{make_unique<QNetworkRequest>()},
-      m_WeatherData{make_unique<CWeatherData>(this)}
+      m_WeatherData{make_unique<CWeatherData>(this)},
+      m_Settings{make_unique<QSettings>(this)}
 {
     m_NetRequest->setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                                QNetworkRequest::NoLessSafeRedirectPolicy);
