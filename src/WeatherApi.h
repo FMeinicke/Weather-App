@@ -14,7 +14,9 @@
 
 #include <QByteArray>
 #include <QJsonDocument>
+#include <QMap>
 #include <QObject>
+#include <QQmlListProperty>
 #include <QString>
 
 #include <memory>
@@ -38,6 +40,8 @@ class CWeatherApi : public QObject
         QString locationName MEMBER m_LocationName NOTIFY locationNameChanged)
     Q_PROPERTY(
         CWeatherData* weatherData READ weatherData NOTIFY weatherDataChanged)
+    Q_PROPERTY(
+        QQmlListProperty<QString> favouriteLocations READ favouriteLocations)
 public:
     /**
      * @brief Construct a new CWeatherApi object
@@ -65,6 +69,28 @@ public:
      * location
      */
     CWeatherData* weatherData() const;
+
+    /**
+     * @brief Get all favourite locations
+     *
+     * @return QQmlListProperty<QString> A list of the favourite locations
+     */
+    QQmlListProperty<QString> favouriteLocations();
+
+    /**
+     * @brief Get the number of favourite locations currently saved
+     *
+     * @return int The number of favourite locations
+     */
+    int favouriteLocationsCount() const;
+
+    /**
+     * @brief Get the specific favourite location name identified by @a index
+     *
+     * @param index The index of the location
+     * @return QString The name of the favourite location
+     */
+    QString favouriteLocation(int index) const;
 
 signals:
     /**
@@ -119,6 +145,11 @@ public slots:
      */
     void requestWeatherData();
 
+    /**
+     * @brief Adds the current location to the list of favourite locations
+     */
+    void addCurrentLocationToFavourites();
+
 private slots:
     /**
      * @brief Reads the data from the network reply into the internal buffer and
@@ -141,6 +172,18 @@ private:
      */
     void setLocationName(const QString& locationName);
 
+    /**
+     * @internal
+     * @brief Get the number of favourite locations currently saved
+     */
+    static int favouriteLocationsCount(QQmlListProperty<QString>* list);
+
+    /**
+     * @internal
+     * @brief Get the specific favourite location name identified by @a index
+     */
+    static QString* favouriteLocation(QQmlListProperty<QString>* list, int index);
+
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};
     std::unique_ptr<QNetworkRequest> m_NetRequest{};
@@ -150,6 +193,7 @@ private:
     QString m_LocationName{};
     std::unique_ptr<CWeatherData> m_WeatherData{};  ///< all the weather data
     std::unique_ptr<QSettings> m_Settings{};
+    QMap<QString, int> m_FavouriteLocations{};  ///< map location names to WOEID's of fav locations
 };
 
 #endif  // WEATHER_API_H

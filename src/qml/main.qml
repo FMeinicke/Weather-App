@@ -89,7 +89,7 @@ ApplicationWindow {
       text: qsTr("Add Location to Favourites")
       enabled: stackView.currentItem.objectName === "WeatherForcastPage"
 
-//      onTriggered: weatherApi.addCurrentLocationToFavourites()
+      onTriggered: weatherApi.addCurrentLocationToFavourites()
     }
 
     function toggle() {
