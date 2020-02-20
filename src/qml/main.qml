@@ -92,6 +92,8 @@ ApplicationWindow {
       onTriggered: weatherApi.addCurrentLocationToFavourites()
     }
 
+    onClosed: isOpen = false
+
     function toggle() {
       if (isOpen) {
         close()
