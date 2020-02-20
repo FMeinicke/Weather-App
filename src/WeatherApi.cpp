@@ -26,6 +26,8 @@ static const auto LAST_LOCATION_NAME_SETTINGS_KEY =
     QStringLiteral("last_location_name");
 static const auto LAST_LOCATION_WOEID_SETTINGS_KEY =
     QStringLiteral("last_location_woeid");
+static const auto FAVOURITE_LOCATIONS_SETTINGS_GROUP =
+    QStringLiteral("favourite_locations");
 
 //=============================================================================
 CWeatherApi::CWeatherApi(QObject* parent)
@@ -36,10 +38,11 @@ CWeatherApi::CWeatherApi(QObject* parent)
       m_WeatherData{make_unique<CWeatherData>(this)},
       m_Settings{make_unique<QSettings>(this)}
 {
+    // allow HTTP redirects (so the trailing '/' in URLs is not necessary)
     m_NetRequest->setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                                QNetworkRequest::NoLessSafeRedirectPolicy);
 
-    // load last location's weather data
+    // load last location's weather data if present
     const auto LastLocationName =
         m_Settings->value(LAST_LOCATION_NAME_SETTINGS_KEY).toString();
     if (!LastLocationName.isEmpty())
@@ -49,13 +52,31 @@ CWeatherApi::CWeatherApi(QObject* parent)
             m_Settings->value(LAST_LOCATION_WOEID_SETTINGS_KEY).toInt();
         requestWeatherData();
     }
+
+    // load favourite locations
+    m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
+    const auto FavLocationNames = m_Settings->childKeys();
+    for_each(
+        begin(FavLocationNames), end(FavLocationNames), [this](const auto& name) {
+            m_FavouriteLocations.insert(name, m_Settings->value(name).toInt());
+        });
+    m_Settings->endGroup();
 }
 
 //=============================================================================
 CWeatherApi::~CWeatherApi()
 {
+    // save last location's weather data
     m_Settings->setValue(LAST_LOCATION_NAME_SETTINGS_KEY, m_LocationName);
     m_Settings->setValue(LAST_LOCATION_WOEID_SETTINGS_KEY, m_LocationWOEID);
+
+    // save favourite locations
+    m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
+    foreach (const auto& Key, m_FavouriteLocations.keys())
+    {
+        m_Settings->setValue(Key, m_FavouriteLocations.value(Key));
+    }
+    m_Settings->endGroup();
 }
 
 //=============================================================================
