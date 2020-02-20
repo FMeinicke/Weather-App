@@ -115,6 +115,8 @@ void CWeatherApi::requestWeatherData()
         const auto TodaysWeatherData = WeatherDataJsonArray.first().toObject();
         m_WeatherData->setWeatherStateName(
             TodaysWeatherData["weather_state_name"].toString());
+        m_WeatherData->setWeatherStateAbbreviation(
+            TodaysWeatherData["weather_state_abbr"].toString());
         m_WeatherData->setTheTemp(TodaysWeatherData["the_temp"].toDouble());
         m_WeatherData->setMinTemp(TodaysWeatherData["min_temp"].toDouble());
         m_WeatherData->setMaxTemp(TodaysWeatherData["max_temp"].toDouble());

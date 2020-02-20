@@ -27,7 +27,8 @@ Page {
       model: 1
       delegate: WeatherDataDelegate {
         day: "Today"
-        weatherState: weatherApi.weatherData.weatherStateName
+        weatherStateName: weatherApi.weatherData.weatherStateName
+        weatherStateAbbr: weatherApi.weatherData.weatherStateAbbreviation
         theTemp: weatherApi.weatherData.theTemp
         minTemp: weatherApi.weatherData.minTemp
         maxTemp: weatherApi.weatherData.maxTemp

@@ -17,7 +17,8 @@ ItemDelegate {
   height: layout.height * 1.4
 
   property string day: "Today"
-  property string weatherState: "Cloudy"
+  property string weatherStateName: "Cloudy"
+  property string weatherStateAbbr: "c"
   property real theTemp: 3
   property real minTemp: 0
   property real maxTemp: 4
@@ -63,7 +64,7 @@ ItemDelegate {
       Label {
         id: lblWeatherState
 
-        text: qsTr(root.weatherState)
+        text: qsTr(root.weatherStateName)
         font.pointSize: Qt.application.font.pointSize * 1.4
 
         Layout.row: 1
