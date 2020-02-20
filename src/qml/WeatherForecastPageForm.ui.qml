@@ -11,6 +11,7 @@ import QtQuick.Layouts 1.12
 
 Page {
   id: root
+  objectName: "WeatherForcastPage"
 
   title: weatherApi.locationName
 

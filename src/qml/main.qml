@@ -61,6 +61,33 @@ ApplicationWindow {
           }
         }
       }
+
+      ToolButton {
+        id: menuButton
+
+        text: "\u22ee"
+
+        Layout.maximumWidth: height / 2
+        Layout.alignment: Qt.AlignTop
+        font.pixelSize: Qt.application.font.pixelSize * 1.6
+
+        onClicked: menu.open()
+      }
+    }
+  }
+
+  Menu {
+    id: menu
+
+    x: window.width - width - 2
+    width: favMenu.implicitWidth
+
+    MenuItem {
+      id: favMenu
+      text: qsTr("Add Location to Favourites")
+      enabled: stackView.currentItem.objectName === "WeatherForcastPage"
+
+//      onTriggered: weatherApi.addCurrentLocationToFavourites()
     }
   }
 
