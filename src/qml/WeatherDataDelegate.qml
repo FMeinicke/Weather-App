@@ -66,9 +66,19 @@ ItemDelegate {
 
         text: qsTr(root.weatherStateName)
         font.pointSize: Qt.application.font.pointSize * 1.4
+      }
 
-        Layout.row: 1
-        Layout.column: 1
+      Image {
+        id: imgWeatherState
+
+        source: "https://www.metaweather.com/static/img/weather/png/"
+                + root.weatherStateAbbr + ".png"
+        sourceSize.height: 48
+
+        fillMode: Image.PreserveAspectFit
+
+        Layout.leftMargin: 10
+        autoTransform: true
       }
 
       Label {
