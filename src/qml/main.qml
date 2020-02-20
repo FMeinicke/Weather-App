@@ -71,13 +71,15 @@ ApplicationWindow {
         Layout.alignment: Qt.AlignTop
         font.pixelSize: Qt.application.font.pixelSize * 1.6
 
-        onClicked: menu.open()
+        onClicked: menu.toggle()
       }
     }
   }
 
   Menu {
     id: menu
+
+    property bool isOpen: false
 
     x: window.width - width - 2
     width: favMenu.implicitWidth
@@ -88,6 +90,15 @@ ApplicationWindow {
       enabled: stackView.currentItem.objectName === "WeatherForcastPage"
 
 //      onTriggered: weatherApi.addCurrentLocationToFavourites()
+    }
+
+    function toggle() {
+      if (isOpen) {
+        close()
+      } else {
+        open()
+      }
+      isOpen = !isOpen
     }
   }
 
