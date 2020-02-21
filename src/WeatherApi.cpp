@@ -35,7 +35,7 @@ CWeatherApi::CWeatherApi(QObject* parent)
       m_NetAccessManager{make_unique<QNetworkAccessManager>(this)},
       m_NetReply{nullptr},
       m_NetRequest{make_unique<QNetworkRequest>()},
-      m_WeatherData{make_unique<CWeatherData>(this)},
+      m_WeatherDataModel{make_unique<CWeatherDataModel>(this)},
       m_Settings{make_unique<QSettings>(this)}
 {
     // allow HTTP redirects (so the trailing '/' in URLs is not necessary)
@@ -87,9 +87,9 @@ QString CWeatherApi::locationName() const
 }
 
 //=============================================================================
-CWeatherData* CWeatherApi::weatherData() const
+CWeatherDataModel* CWeatherApi::weatherDataModel() const
 {
-    return m_WeatherData.get();
+    return m_WeatherDataModel.get();
 }
 
 //=============================================================================
@@ -148,14 +148,19 @@ void CWeatherApi::requestWeatherData()
         const auto WeatherDataJsonArray =
             m_ResponseJsonDoc.object().value("consolidated_weather").toArray();
         const auto TodaysWeatherData = WeatherDataJsonArray.first().toObject();
-        m_WeatherData->setWeatherStateName(
-            TodaysWeatherData["weather_state_name"].toString());
-        m_WeatherData->setWeatherStateAbbreviation(
-            TodaysWeatherData["weather_state_abbr"].toString());
-        m_WeatherData->setTheTemp(TodaysWeatherData["the_temp"].toDouble());
-        m_WeatherData->setMinTemp(TodaysWeatherData["min_temp"].toDouble());
-        m_WeatherData->setMaxTemp(TodaysWeatherData["max_temp"].toDouble());
-        emit weatherDataChanged();
+        m_WeatherDataModel->setData(0,
+                               TodaysWeatherData["weather_state_name"].toVariant(),
+                               CWeatherDataModel::WeatherStateNameRole);
+        m_WeatherDataModel->setData(0,
+                               TodaysWeatherData["weather_state_abbr"].toVariant(),
+                               CWeatherDataModel::WeatherStateAbbrRole);
+        m_WeatherDataModel->setData(0, TodaysWeatherData["the_temp"].toVariant(),
+                               CWeatherDataModel::TheTempRole);
+        m_WeatherDataModel->setData(0, TodaysWeatherData["min_temp"].toVariant(),
+                               CWeatherDataModel::MinTempRole);
+        m_WeatherDataModel->setData(0, TodaysWeatherData["max_temp"].toVariant(),
+                               CWeatherDataModel::MaxTempRole);
+        emit weatherDataModelChanged();
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
             &CWeatherApi::cleanUp);

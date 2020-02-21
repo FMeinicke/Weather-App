@@ -10,7 +10,7 @@
 //============================================================================
 //                                   INCLUDES
 //============================================================================
-#include "WeatherData.h"
+#include "WeatherDataModel.h"
 
 #include <QByteArray>
 #include <QJsonDocument>
@@ -38,8 +38,8 @@ class CWeatherApi : public QObject
 
     Q_PROPERTY(
         QString locationName MEMBER m_LocationName NOTIFY locationNameChanged)
-    Q_PROPERTY(
-        CWeatherData* weatherData READ weatherData NOTIFY weatherDataChanged)
+    Q_PROPERTY(CWeatherDataModel* weatherDataModel READ weatherDataModel NOTIFY
+                   weatherDataModelChanged)
     Q_PROPERTY(QStringList favouriteLocations READ favouriteLocations NOTIFY
                    favouriteLocationsChanged)
 public:
@@ -63,12 +63,12 @@ public:
     QString locationName() const;
 
     /**
-     * @brief Get the weather data object corresponding to the current location
+     * @brief Get the weather data model corresponding to the current location
      *
-     * @return CWeatherData* A pointer to the weather data for the current
-     * location
+     * @return CWeatherDataModel* A pointer to the weather data model for the
+     * current location
      */
-    CWeatherData* weatherData() const;
+    CWeatherDataModel* weatherDataModel() const;
 
     /**
      * @brief Get all favourite locations
@@ -102,9 +102,9 @@ signals:
     void jsonReady();
 
     /**
-     * @brief This signal notifies about changes in the @a m_WeatherData member
+     * @brief This signal notifies about changes in the @a m_WeatherDataModel member
      */
-    void weatherDataChanged();
+    void weatherDataModelChanged();
 
     /**
      * @brief This signal notifies about changes in the @a m_FavouriteLocations
@@ -180,7 +180,7 @@ private:
     QJsonDocument m_ResponseJsonDoc{};  ///< JSON doc with the API reponse
     int m_LocationWOEID{};  ///< The location's WOEID (Where On Earth ID)
     QString m_LocationName{};
-    std::unique_ptr<CWeatherData> m_WeatherData{};  ///< all the weather data
+    std::unique_ptr<CWeatherDataModel> m_WeatherDataModel{};  ///< all the weather data
     std::unique_ptr<QSettings> m_Settings{};
     QMap<QString, int> m_FavouriteLocations{};  ///< map location names to WOEID's of fav locations
 };
