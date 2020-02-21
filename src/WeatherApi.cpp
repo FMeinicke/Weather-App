@@ -147,19 +147,26 @@ void CWeatherApi::requestWeatherData()
     connect(this, &CWeatherApi::jsonReady, this, [this]() {
         const auto WeatherDataJsonArray =
             m_ResponseJsonDoc.object().value("consolidated_weather").toArray();
-        const auto TodaysWeatherData = WeatherDataJsonArray.first().toObject();
-        m_WeatherDataModel->setData(0,
-                               TodaysWeatherData["weather_state_name"].toVariant(),
-                               CWeatherDataModel::WeatherStateNameRole);
-        m_WeatherDataModel->setData(0,
-                               TodaysWeatherData["weather_state_abbr"].toVariant(),
-                               CWeatherDataModel::WeatherStateAbbrRole);
-        m_WeatherDataModel->setData(0, TodaysWeatherData["the_temp"].toVariant(),
-                               CWeatherDataModel::TheTempRole);
-        m_WeatherDataModel->setData(0, TodaysWeatherData["min_temp"].toVariant(),
-                               CWeatherDataModel::MinTempRole);
-        m_WeatherDataModel->setData(0, TodaysWeatherData["max_temp"].toVariant(),
-                               CWeatherDataModel::MaxTempRole);
+
+        for_each(begin(WeatherDataJsonArray), end(WeatherDataJsonArray),
+                 [this, i = 0](const auto& WeatherData) mutable {
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["weather_state_name"].toVariant(),
+                         CWeatherDataModel::WeatherStateNameRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["weather_state_abbr"].toVariant(),
+                         CWeatherDataModel::WeatherStateAbbrRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["the_temp"].toVariant(),
+                         CWeatherDataModel::TheTempRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["min_temp"].toVariant(),
+                         CWeatherDataModel::MinTempRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["max_temp"].toVariant(),
+                         CWeatherDataModel::MaxTempRole);
+                    ++i;
+                 });
         emit weatherDataModelChanged();
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,

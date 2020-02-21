@@ -75,7 +75,7 @@ public:
     bool setData(int index, const QVariant& value, int role = Qt::EditRole);
 
 private:
-    static constexpr size_t m_NumDays{1}; ///< for how many days weather data is available
+    static constexpr size_t m_NumDays{6}; ///< for how many days weather data is available
 
     QList<CWeatherData> m_WeatherDataList{};
 };
