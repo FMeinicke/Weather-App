@@ -130,6 +130,13 @@ void CWeatherApi::setLocationByIndex(int index)
 }
 
 //=============================================================================
+void CWeatherApi::setLocationByName(const QString& name)
+{
+    m_LocationWOEID = m_FavouriteLocations[name];
+    setLocationName(name);
+}
+
+//=============================================================================
 void CWeatherApi::requestWeatherData()
 {
     m_NetRequest->setUrl({BASE_URL + QString::number(m_LocationWOEID)});

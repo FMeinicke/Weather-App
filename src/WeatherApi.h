@@ -132,6 +132,16 @@ public slots:
     void setLocationByIndex(int index);
 
     /**
+     * @brief Set the location that should be used for all further API calls and
+     * is identified by the name @a name with respect to the list of favourite
+     * locations.
+     *
+     * @param name The name of the location with respect to the list of favourite
+     * locations
+     */
+    void setLocationByName(const QString& name);
+
+    /**
      * @brief Request weather data about the currently selected location
      */
     void requestWeatherData();
