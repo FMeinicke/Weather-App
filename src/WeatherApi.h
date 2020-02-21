@@ -40,8 +40,8 @@ class CWeatherApi : public QObject
         QString locationName MEMBER m_LocationName NOTIFY locationNameChanged)
     Q_PROPERTY(
         CWeatherData* weatherData READ weatherData NOTIFY weatherDataChanged)
-    Q_PROPERTY(
-        QQmlListProperty<QString> favouriteLocations READ favouriteLocations)
+    Q_PROPERTY(QStringList favouriteLocations READ favouriteLocations NOTIFY
+                   favouriteLocationsChanged)
 public:
     /**
      * @brief Construct a new CWeatherApi object
@@ -73,24 +73,9 @@ public:
     /**
      * @brief Get all favourite locations
      *
-     * @return QQmlListProperty<QString> A list of the favourite locations
+     * @return QStringList A list of the favourite location names
      */
-    QQmlListProperty<QString> favouriteLocations();
-
-    /**
-     * @brief Get the number of favourite locations currently saved
-     *
-     * @return int The number of favourite locations
-     */
-    int favouriteLocationsCount() const;
-
-    /**
-     * @brief Get the specific favourite location name identified by @a index
-     *
-     * @param index The index of the location
-     * @return QString The name of the favourite location
-     */
-    QString favouriteLocation(int index) const;
+    QStringList favouriteLocations();
 
 signals:
     /**
@@ -120,6 +105,12 @@ signals:
      * @brief This signal notifies about changes in the @a m_WeatherData member
      */
     void weatherDataChanged();
+
+    /**
+     * @brief This signal notifies about changes in the @a m_FavouriteLocations
+     * member
+     */
+    void favouriteLocationsChanged();
 
 public slots:
     /**
@@ -171,18 +162,6 @@ private:
      * @param locationName The new name of the current location
      */
     void setLocationName(const QString& locationName);
-
-    /**
-     * @internal
-     * @brief Get the number of favourite locations currently saved
-     */
-    static int favouriteLocationsCount(QQmlListProperty<QString>* list);
-
-    /**
-     * @internal
-     * @brief Get the specific favourite location name identified by @a index
-     */
-    static QString* favouriteLocation(QQmlListProperty<QString>* list, int index);
 
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};

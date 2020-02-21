@@ -61,6 +61,7 @@ CWeatherApi::CWeatherApi(QObject* parent)
             m_FavouriteLocations.insert(name, m_Settings->value(name).toInt());
         });
     m_Settings->endGroup();
+    emit favouriteLocationsChanged();
 }
 
 //=============================================================================
@@ -92,22 +93,9 @@ CWeatherData* CWeatherApi::weatherData() const
 }
 
 //=============================================================================
-QQmlListProperty<QString> CWeatherApi::favouriteLocations()
+QStringList CWeatherApi::favouriteLocations()
 {
-    return {this, this, &CWeatherApi::favouriteLocationsCount,
-            &CWeatherApi::favouriteLocation};
-}
-
-//=============================================================================
-int CWeatherApi::favouriteLocationsCount() const
-{
-    return m_FavouriteLocations.count();
-}
-
-//=============================================================================
-QString CWeatherApi::favouriteLocation(int index) const
-{
-    return m_FavouriteLocations.keys().at(index);
+    return m_FavouriteLocations.keys();
 }
 
 //=============================================================================
@@ -170,6 +158,7 @@ void CWeatherApi::requestWeatherData()
 void CWeatherApi::addCurrentLocationToFavourites()
 {
     m_FavouriteLocations.insert(m_LocationName, m_LocationWOEID);
+    emit favouriteLocationsChanged();
 }
 
 //=============================================================================
@@ -201,20 +190,4 @@ void CWeatherApi::setLocationName(const QString& locationName)
 {
     m_LocationName = locationName;
     emit locationNameChanged();
-}
-
-//=============================================================================
-int CWeatherApi::favouriteLocationsCount(QQmlListProperty<QString>* list)
-{
-    return reinterpret_cast<CWeatherApi*>(list->data)->favouriteLocationsCount();
-}
-
-//=============================================================================
-QString* CWeatherApi::favouriteLocation(QQmlListProperty<QString>* list,
-                                        int index)
-{
-    static auto Location =
-        reinterpret_cast<CWeatherApi*>(list->data)->favouriteLocation(index);
-    Location.detach();  // ensure a deep copy
-    return &Location;
 }
