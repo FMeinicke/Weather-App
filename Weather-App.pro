@@ -18,11 +18,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         src/WeatherApi.cpp \
         src/WeatherData.cpp \
+        src/WeatherDataModel.cpp \
         src/main.cpp
 
 HEADERS += \
     src/WeatherApi.h \
-    src/WeatherData.h
+    src/WeatherData.h \
+    src/WeatherDataModel.h
 
 RESOURCES += src/qml/qml.qrc \
        src/res/icons/icons.qrc
