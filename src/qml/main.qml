@@ -56,7 +56,8 @@ ApplicationWindow {
         Layout.alignment: Qt.AlignRight
         onClicked: {
           // prevent "SearchPageForm" to be pushed onto the stack multiple times
-          if (!currentSearchPage || currentSearchPage != stackView.currentItem) {
+          if (!currentSearchPage
+              || currentSearchPage != stackView.currentItem) {
             currentSearchPage = stackView.push("SearchPageForm.qml")
           }
         }
@@ -110,26 +111,38 @@ ApplicationWindow {
     width: window.width * 0.66
     height: window.height
 
-//    Column {
-//      anchors.fill: parent
+    Column {
+      anchors.fill: parent
 
-//      ItemDelegate {
-//        text: qsTr("Page 1")
-//        width: parent.width
-//        onClicked: {
-//          stackView.push("Page1Form.ui.qml")
-//          drawer.close()
-//        }
-//      }
-//      ItemDelegate {
-//        text: qsTr("Page 2")
-//        width: parent.width
-//        onClicked: {
-//          stackView.push("Page2Form.ui.qml")
-//          drawer.close()
-//        }
-//      }
-//    }
+      Label {
+        id: lblColumnHeader
+
+        text: qsTr("Favourite Locations")
+        font.pointSize: Qt.application.font.pointSize
+        font.bold: true
+
+        width: parent.width
+        height: 48
+        leftPadding: 10
+        verticalAlignment: Text.AlignVCenter
+      }
+
+      Repeater {
+        model: weatherApi.favouriteLocations
+        delegate: ItemDelegate {
+          text: qsTr(modelData)
+          font.pointSize: lblColumnHeader.font.pointSize
+          width: parent.width
+
+          onClicked: {
+            weatherApi.setLocationByName(modelData)
+            weatherApi.requestWeatherData()
+            stackView.replace("WeatherForecastPageForm.ui.qml")
+            drawer.close()
+          }
+        }
+      }
+    }
   }
 
   StackView {
@@ -138,11 +151,12 @@ ApplicationWindow {
     anchors.fill: parent
   }
 
+
   /**
    * @brief Replaces the WeatherForecastPageForm with the HomeForm in case the
    * app has been started for the first time to show the landing page.
    */
   function setFirstStartPage() {
-    stackView.replace("HomeForm.ui.qml");
+    stackView.replace("HomeForm.ui.qml")
   }
 }
