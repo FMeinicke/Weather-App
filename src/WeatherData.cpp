@@ -70,7 +70,7 @@ void CWeatherData::setWeatherStateName(const QString& weatherStateName)
 //=============================================================================
 QString CWeatherData::weatherStateAbbreviation() const
 {
-    return m_WeatherStateName;
+    return m_WeatherStateAbbreviation;
 }
 
 //=============================================================================
