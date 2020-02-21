@@ -43,7 +43,8 @@ ApplicationWindow {
       Label {
         text: stackView.currentItem.title
         font.pixelSize: Qt.application.font.pixelSize * 1.6
-        Layout.alignment: Qt.AlignCenter
+        horizontalAlignment: Qt.AlignHCenter
+        Layout.fillWidth: true
       }
 
       ToolButton {
@@ -54,6 +55,8 @@ ApplicationWindow {
         icon.source: "qrc:/icons/search_white"
         icon.color: 'transparent'
         Layout.alignment: Qt.AlignRight
+        Layout.rightMargin: -width / 3
+
         onClicked: {
           // prevent "SearchPageForm" to be pushed onto the stack multiple times
           if (!currentSearchPage
@@ -68,7 +71,6 @@ ApplicationWindow {
 
         text: "\u22ee"
 
-        Layout.maximumWidth: height / 2
         Layout.alignment: Qt.AlignTop
         font.pixelSize: Qt.application.font.pixelSize * 1.6
 
