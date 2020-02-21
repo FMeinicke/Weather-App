@@ -32,6 +32,31 @@ public:
     explicit CWeatherData(QObject* parent = nullptr);
 
     /**
+     * @brief Copy c'tor
+     */
+    CWeatherData(const CWeatherData& rhs);
+
+    /**
+     * @brief Move c'tor
+     */
+    CWeatherData(CWeatherData&& rhs) noexcept;
+
+    /**
+     * @brief Copy assignment operator
+     */
+    CWeatherData& operator=(const CWeatherData& rhs);
+
+    /**
+     * @brief Move assignment operator
+     */
+    CWeatherData& operator=(CWeatherData&& rhs) noexcept;
+
+    /**
+     * @brief D'tor
+     */
+    ~CWeatherData() override = default;
+
+    /**
      * @brief Get the weather state name
      *
      * @return QString The weather state name
