@@ -25,14 +25,14 @@ Page {
 
     ListView {
       width: parent.width
-      model: 1
+      model: weatherApi.weatherDataModel
       delegate: WeatherDataDelegate {
         day: "Today"
-        weatherStateName: weatherApi.weatherData.weatherStateName
-        weatherStateAbbr: weatherApi.weatherData.weatherStateAbbreviation
-        theTemp: weatherApi.weatherData.theTemp
-        minTemp: weatherApi.weatherData.minTemp
-        maxTemp: weatherApi.weatherData.maxTemp
+        weatherStateName: model.weatherStateName
+        weatherStateAbbr: model.weatherStateAbbr
+        theTemp: model.theTemp
+        minTemp: model.minTemp
+        maxTemp: model.maxTemp
       }
     }
   }
