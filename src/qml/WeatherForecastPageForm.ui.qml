@@ -27,7 +27,15 @@ Page {
       width: parent.width
       model: weatherApi.weatherDataModel
       delegate: WeatherDataDelegate {
-        day: "Today"
+        date: {
+          if (index === 0) {
+            return qsTr("Today")
+          } else if (index === 1) {
+            return qsTr("Tomorrow")
+          } else {
+            return Qt.formatDate(model.date, "dddd, dd/MM/yyyy")
+          }
+        }
         weatherStateName: model.weatherStateName
         weatherStateAbbr: model.weatherStateAbbr
         theTemp: model.theTemp

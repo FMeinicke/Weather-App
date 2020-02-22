@@ -16,7 +16,7 @@ ItemDelegate {
   width: Screen.width
   height: layout.height * 1.4
 
-  property string day: "Today"
+  property string date: "Today"
   property string weatherStateName: "Cloudy"
   property string weatherStateAbbr: "c"
   property real theTemp: 3
@@ -46,9 +46,9 @@ ItemDelegate {
       anchors.leftMargin: root.offset
 
       Label {
-        id: lblDay
+        id: lblDate
 
-        text: qsTr(root.day)
+        text: qsTr(root.date)
         color: "#90000000"
       }
 
