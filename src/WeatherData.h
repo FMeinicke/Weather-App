@@ -360,21 +360,21 @@ signals:
     void sunsetTimeChanged();
 
 private:
-    QDate m_Date{};
-    QString m_WeatherStateName{};
-    QString m_WeatherStateAbbreviation{};
-    qreal m_TheTemp{};
-    qreal m_MinTemp{};
-    qreal m_MaxTemp{};
-    qreal m_WindSpeed{};
-    qreal m_WindDirection{};
-    QString m_WindDirCompass{};
-    qreal m_AirPressure{};
-    qreal m_Humidity{};
-    qreal m_Visibility{};
-    int m_Confidence{};
-    QDateTime m_SunriseTime{};
-    QDateTime m_SunsetTime{};
+    QDate m_Date{};  ///< the date this data applies to
+    QString m_WeatherStateName{};  ///< name of the current weather state (e.g. clear)
+    QString m_WeatherStateAbbreviation{};  ///< abbreviation of the weather state (for icons)
+    qreal m_TheTemp{};                 ///< the current temperature in °C
+    qreal m_MinTemp{};           ///< the minimum temperature in °C for the day
+    qreal m_MaxTemp{};           ///< the maximum temperature in °C for the day
+    qreal m_WindSpeed{};         ///< wind speed in mph
+    qreal m_WindDirection{};     ///< direction of the wind in degrees
+    QString m_WindDirCompass{};  ///< compass point of the wind direction
+    qreal m_AirPressure{};       ///< air pressure in mbar
+    qreal m_Humidity{};          ///< humidity in percent
+    qreal m_Visibility{};        ///< visibility in miles
+    int m_Confidence{};          ///< confidence of the forecast in percent
+    QDateTime m_SunriseTime{};   ///< time of sunrise
+    QDateTime m_SunsetTime{};    ///< time of sunset
 };
 
 #endif  // CWEATHERDATA_H
