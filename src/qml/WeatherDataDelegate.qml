@@ -50,6 +50,8 @@ ItemDelegate {
 
         text: qsTr(root.date)
         color: "#90000000"
+
+        Layout.columnSpan: 2
       }
 
       Label {
