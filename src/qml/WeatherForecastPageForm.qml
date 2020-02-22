@@ -1,5 +1,5 @@
 //============================================================================
-/// \file   WeatherForecastPageForm.ui.qml
+/// \file   WeatherForecastPageForm.qml
 /// \author Florian Meinicke <florian.meinicke@t-online.de>
 /// \date   18/02/2020
 /// \brief  A page displaying the weather forecast for the selected location

@@ -4,7 +4,7 @@
         <file>qtquickcontrols2.conf</file>
         <file>HomeForm.ui.qml</file>
         <file>SearchPageForm.qml</file>
-        <file>WeatherForecastPageForm.ui.qml</file>
+        <file>WeatherForecastPageForm.qml</file>
         <file>SearchBox.qml</file>
         <file>WeatherDataDelegate.qml</file>
     </qresource>
