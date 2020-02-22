@@ -10,7 +10,9 @@
 //============================================================================
 //                                   INCLUDES
 //============================================================================
+#include <QDate>
 #include <QObject>
+#include <QString>
 
 /**
  * @brief The CWetherData class encapsulates the weather data (temperature,
@@ -20,6 +22,7 @@ class CWeatherData : public QObject
 {
     Q_OBJECT
 
+    Q_PROPERTY(QDate date MEMBER m_Date NOTIFY dateChanged)
     Q_PROPERTY(QString weatherStateName MEMBER m_WeatherStateName NOTIFY
                    weatherStateNameChanged)
     Q_PROPERTY(QString weatherStateAbbreviation MEMBER m_WeatherStateAbbreviation
@@ -55,6 +58,20 @@ public:
      * @brief D'tor
      */
     ~CWeatherData() override = default;
+
+    /**
+     * @brief Get the date this weather data applies to
+     *
+     * @return QDate The date
+     */
+    QDate date() const;
+
+    /**
+     * @brief Set the date for this weather data
+     *
+     * @param weatherStateName The new date
+     */
+    void setDate(const QDate& date);
 
     /**
      * @brief Get the weather state name
@@ -128,6 +145,11 @@ public:
 
 signals:
     /**
+     * @brief This signal notifies about changes of the @a m_Date member
+     */
+    void dateChanged();
+
+    /**
      * @brief This signal notifies about changes of the @a m_WeatherStateName
      * member
      */
@@ -155,6 +177,7 @@ signals:
     void maxTempChanged();
 
 private:
+    QDate m_Date{};
     QString m_WeatherStateName{};
     QString m_WeatherStateAbbreviation{};
     qreal m_TheTemp{};

@@ -151,6 +151,9 @@ void CWeatherApi::requestWeatherData()
         for_each(begin(WeatherDataJsonArray), end(WeatherDataJsonArray),
                  [this, i = 0](const auto& WeatherData) mutable {
                      m_WeatherDataModel->setData(
+                         i, WeatherData["applicable_date"].toVariant(),
+                         CWeatherDataModel::DateRole);
+                     m_WeatherDataModel->setData(
                          i, WeatherData["weather_state_name"].toVariant(),
                          CWeatherDataModel::WeatherStateNameRole);
                      m_WeatherDataModel->setData(
@@ -165,7 +168,7 @@ void CWeatherApi::requestWeatherData()
                      m_WeatherDataModel->setData(
                          i, WeatherData["max_temp"].toVariant(),
                          CWeatherDataModel::MaxTempRole);
-                    ++i;
+                     ++i;
                  });
         emit weatherDataModelChanged();
     });

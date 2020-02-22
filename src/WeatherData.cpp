@@ -55,6 +55,19 @@ CWeatherData& CWeatherData::operator=(CWeatherData&& rhs) noexcept
 }
 
 //=============================================================================
+QDate CWeatherData::date() const
+{
+    return m_Date;
+}
+
+//=============================================================================
+void CWeatherData::setDate(const QDate& day)
+{
+    m_Date = day;
+    emit dateChanged();
+}
+
+//=============================================================================
 QString CWeatherData::weatherStateName() const
 {
     return m_WeatherStateName;

@@ -26,6 +26,8 @@ QVariant CWeatherDataModel::data(const QModelIndex& index, int role) const
 {
     switch (role)
     {
+    case DateRole:
+        return m_WeatherDataList[index.row()].date();
     case WeatherStateNameRole:
         return m_WeatherDataList[index.row()].weatherStateName();
     case WeatherStateAbbrRole:
@@ -48,6 +50,9 @@ bool CWeatherDataModel::setData(const QModelIndex& index, const QVariant& value,
 {
     switch (role)
     {
+    case DateRole:
+        m_WeatherDataList[index.row()].setDate(value.toDate());
+        break;
     case WeatherStateNameRole:
         m_WeatherDataList[index.row()].setWeatherStateName(value.toString());
         break;
@@ -83,6 +88,7 @@ int CWeatherDataModel::rowCount(const QModelIndex& /*parent*/) const
 QHash<int, QByteArray> CWeatherDataModel::roleNames() const
 {
     QHash<int, QByteArray> Roles;
+    Roles[DateRole] = "date";
     Roles[WeatherStateNameRole] = "weatherStateName";
     Roles[WeatherStateAbbrRole] = "weatherStateAbbr";
     Roles[TheTempRole] = "theTemp";

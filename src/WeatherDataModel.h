@@ -32,7 +32,8 @@ public:
      */
     enum eWeatherDataRoles
     {
-        WeatherStateNameRole = Qt::UserRole + 1,
+        DateRole = Qt::UserRole + 1,
+        WeatherStateNameRole,
         WeatherStateAbbrRole,
         TheTempRole,
         MinTempRole,
