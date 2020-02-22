@@ -168,6 +168,33 @@ void CWeatherApi::requestWeatherData()
                      m_WeatherDataModel->setData(
                          i, WeatherData["max_temp"].toVariant(),
                          CWeatherDataModel::MaxTempRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["wind_speed"].toVariant(),
+                         CWeatherDataModel::WindSpeedRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["wind_direction"].toVariant(),
+                         CWeatherDataModel::WindDirectionRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["wind_direction_compass"].toVariant(),
+                         CWeatherDataModel::WindDirCompassRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["air_pressure"].toVariant(),
+                         CWeatherDataModel::AirPressureRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["humidity"].toVariant(),
+                         CWeatherDataModel::HumidityRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["visibility"].toVariant(),
+                         CWeatherDataModel::VisibilityRole);
+                     m_WeatherDataModel->setData(
+                         i, WeatherData["predictability"].toVariant(),
+                         CWeatherDataModel::ConfidenceRole);
+                     m_WeatherDataModel->setData(
+                         i, m_ResponseJsonDoc["sun_rise"].toVariant(),
+                         CWeatherDataModel::SunriseTimeRole);
+                     m_WeatherDataModel->setData(
+                         i, m_ResponseJsonDoc["sun_set"].toVariant(),
+                         CWeatherDataModel::SunsetTimeRole);
                      ++i;
                  });
         emit weatherDataModelChanged();
