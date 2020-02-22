@@ -139,7 +139,7 @@ ApplicationWindow {
           onClicked: {
             weatherApi.setLocationByName(modelData)
             weatherApi.requestWeatherData()
-            stackView.replace("WeatherForecastPageForm.ui.qml")
+            stackView.replace("WeatherForecastPageForm.qml")
             drawer.close()
           }
         }
@@ -149,7 +149,7 @@ ApplicationWindow {
 
   StackView {
     id: stackView
-    initialItem: "WeatherForecastPageForm.ui.qml"
+    initialItem: "WeatherForecastPageForm.qml"
     anchors.fill: parent
   }
 
