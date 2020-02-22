@@ -30,6 +30,18 @@ class CWeatherData : public QObject
     Q_PROPERTY(qreal theTemp MEMBER m_TheTemp NOTIFY theTempChanged)
     Q_PROPERTY(qreal minTemp MEMBER m_MinTemp NOTIFY minTempChanged)
     Q_PROPERTY(qreal maxTemp MEMBER m_MaxTemp NOTIFY maxTempChanged)
+    Q_PROPERTY(qreal windSpeed MEMBER m_WindSpeed NOTIFY windSpeedChanged)
+    Q_PROPERTY(
+        qreal windDirection MEMBER m_WindDirection NOTIFY windDirectionChanged)
+    Q_PROPERTY(
+        QString windDirCompass MEMBER m_WindDirCompass NOTIFY windDirCompassChanged)
+    Q_PROPERTY(qreal airPressure MEMBER m_AirPressure NOTIFY airPressureChanged)
+    Q_PROPERTY(qreal humidity MEMBER m_Humidity NOTIFY humidityChanged)
+    Q_PROPERTY(qreal visibility MEMBER m_Visibility NOTIFY visibilityChanged)
+    Q_PROPERTY(qreal confidence MEMBER m_Confidence NOTIFY confidenceChanged)
+    Q_PROPERTY(
+        QDateTime sunriseTime MEMBER m_SunriseTime NOTIFY sunriseTimeChanged)
+    Q_PROPERTY(QDateTime sunsetTime MEMBER m_SunsetTime NOTIFY sunsetTimeChanged)
 
 public:
     explicit CWeatherData(QObject* parent = nullptr);
@@ -143,6 +155,132 @@ public:
      */
     void setMaxTemp(const qreal& temp);
 
+    /**
+     * @brief Get the wind speed
+     *
+     * @return qreal The wind speed in mph
+     */
+    qreal windSpeed() const;
+
+    /**
+     * @brief Set the wind speed
+     *
+     * @param speed The new wind speed in mph
+     */
+    void setWindSpeed(const qreal& speed);
+
+    /**
+     * @brief Get the wind direction
+     *
+     * @return qreal The wind direction in degrees
+     */
+    qreal windDirection() const;
+
+    /**
+     * @brief Set the wind direction
+     *
+     * @param dir The new wind direction in mph
+     */
+    void setWindDirection(const qreal& dir);
+
+    /**
+     * @brief Get the compass point of the wind direction (e.g. N for north wind)
+     *
+     * @return QString The compass point of the wind direction
+     */
+    QString windDirCompass() const;
+
+    /**
+     * @brief Set the compass point of the wind direction (e.g. N for north wind)
+     *
+     * @param compass The new compass point of the wind direction
+     */
+    void setWindDirCompass(const QString& compass);
+
+    /**
+     * @brief Get the current air pressure
+     *
+     * @return qreal The air pressure in mbar
+     */
+    qreal airPressure() const;
+
+    /**
+     * @brief Set the air pressure
+     *
+     * @param pressure The new air pressure in mbar
+     */
+    void setAirPressure(const qreal& pressure);
+
+    /**
+     * @brief Get the current humidity
+     *
+     * @return qreal The humidity in percent (0.0 - 1.0)
+     */
+    qreal humidity() const;
+
+    /**
+     * @brief Set the humidity
+     *
+     * @param qreal The new humidity in percent (0.0 - 1.0)
+     */
+    void setHumidity(const qreal& humidity);
+
+    /**
+     * @brief Get the current visibility
+     *
+     * @return qreal The visibility in miles
+     */
+    qreal visibility() const;
+
+    /**
+     * @brief Set the visibility
+     *
+     * @param qreal The new visibility in miles
+     */
+    void setVisibility(const qreal& visibility);
+
+    /**
+     * @brief Get the current confidence
+     *
+     * @return qreal The confidence in percent (0 - 100)
+     */
+    int confidence() const;
+
+    /**
+     * @brief Set the confidence
+     *
+     * @param qreal The new confidence in percent (0 - 100)
+     */
+    void setConfidence(int confidence);
+
+    /**
+     * @brief Get the time of sunrise for this day
+     *
+     * @return qreal The time of sunrise
+     */
+    QDateTime sunriseTime() const;
+
+    /**
+     * @brief Set the time of sunrise for this day
+     *
+     * @param qreal The new time of sunrise
+     */
+    void setSunriseTime(const QDateTime& time);
+
+    /**
+     * @brief Get the time of sunset for this day
+     *
+     * @return qreal The time of sunset
+     */
+    QDateTime sunsetTime() const;
+
+    /**
+     * @brief Set the time of sunset for this day
+     *
+     * @param qreal The new time of sunset
+     */
+    void setSunsetTime(const QDateTime& time);
+
 signals:
     /**
      * @brief This signal notifies about changes of the @a m_Date member
@@ -176,6 +314,51 @@ signals:
      */
     void maxTempChanged();
 
+    /**
+     * @brief This signal notifies about changes of the @a m_WindSpeed member
+     */
+    void windSpeedChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_WindDirection member
+     */
+    void windDirectionChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_WindDirCompass member
+     */
+    void windDirCompassChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_AirPressure member
+     */
+    void airPressureChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_Humidity member
+     */
+    void humidityChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_Visibility member
+     */
+    void visibilityChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_Confidence member
+     */
+    void confidenceChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_SunriseTime member
+     */
+    void sunriseTimeChanged();
+
+    /**
+     * @brief This signal notifies about changes of the @a m_SunsetTime member
+     */
+    void sunsetTimeChanged();
+
 private:
     QDate m_Date{};
     QString m_WeatherStateName{};
@@ -183,6 +366,15 @@ private:
     qreal m_TheTemp{};
     qreal m_MinTemp{};
     qreal m_MaxTemp{};
+    qreal m_WindSpeed{};
+    qreal m_WindDirection{};
+    QString m_WindDirCompass{};
+    qreal m_AirPressure{};
+    qreal m_Humidity{};
+    qreal m_Visibility{};
+    int m_Confidence{};
+    QDateTime m_SunriseTime{};
+    QDateTime m_SunsetTime{};
 };
 
 #endif  // CWEATHERDATA_H
