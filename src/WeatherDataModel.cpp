@@ -38,6 +38,24 @@ QVariant CWeatherDataModel::data(const QModelIndex& index, int role) const
         return m_WeatherDataList[index.row()].minTemp();
     case MaxTempRole:
         return m_WeatherDataList[index.row()].maxTemp();
+    case WindSpeedRole:
+        return m_WeatherDataList[index.row()].windSpeed();
+    case WindDirectionRole:
+        return m_WeatherDataList[index.row()].windDirection();
+    case WindDirCompassRole:
+        return m_WeatherDataList[index.row()].windDirCompass();
+    case AirPressureRole:
+        return m_WeatherDataList[index.row()].airPressure();
+    case HumidityRole:
+        return m_WeatherDataList[index.row()].humidity();
+    case VisibilityRole:
+        return m_WeatherDataList[index.row()].visibility();
+    case ConfidenceRole:
+        return m_WeatherDataList[index.row()].confidence();
+    case SunriseTimeRole:
+        return m_WeatherDataList[index.row()].sunriseTime();
+    case SunsetTimeRole:
+        return m_WeatherDataList[index.row()].sunsetTime();
     default:
         qWarning() << "Unknown role" << role << "for CWeatherDataModel::data";
         return QVariant();
@@ -69,6 +87,33 @@ bool CWeatherDataModel::setData(const QModelIndex& index, const QVariant& value,
     case MaxTempRole:
         m_WeatherDataList[index.row()].setMaxTemp(value.toDouble());
         break;
+    case WindSpeedRole:
+        m_WeatherDataList[index.row()].setWindSpeed(value.toDouble());
+        break;
+    case WindDirectionRole:
+        m_WeatherDataList[index.row()].setWindDirection(value.toDouble());
+        break;
+    case WindDirCompassRole:
+        m_WeatherDataList[index.row()].setWindDirCompass(value.toString());
+        break;
+    case AirPressureRole:
+        m_WeatherDataList[index.row()].setAirPressure(value.toDouble());
+        break;
+    case HumidityRole:
+        m_WeatherDataList[index.row()].setHumidity(value.toDouble());
+        break;
+    case VisibilityRole:
+        m_WeatherDataList[index.row()].setVisibility(value.toDouble());
+        break;
+    case ConfidenceRole:
+        m_WeatherDataList[index.row()].setConfidence(value.toInt());
+        break;
+    case SunriseTimeRole:
+        m_WeatherDataList[index.row()].setSunriseTime(value.toDateTime());
+        break;
+    case SunsetTimeRole:
+        m_WeatherDataList[index.row()].setSunsetTime(value.toDateTime());
+        break;
     default:
         qWarning() << "Unknown role" << role << "for CWeatherDataModel::setData";
         return false;
@@ -94,6 +139,15 @@ QHash<int, QByteArray> CWeatherDataModel::roleNames() const
     Roles[TheTempRole] = "theTemp";
     Roles[MinTempRole] = "minTemp";
     Roles[MaxTempRole] = "maxTemp";
+    Roles[WindSpeedRole] = "windSpeed";
+    Roles[WindDirectionRole] = "windDirection";
+    Roles[WindDirCompassRole] = "windDirCompass";
+    Roles[AirPressureRole] = "airPressure";
+    Roles[HumidityRole] = "humidity";
+    Roles[VisibilityRole] = "visibility";
+    Roles[ConfidenceRole] = "confidence";
+    Roles[SunriseTimeRole] = "sunriseTime";
+    Roles[SunsetTimeRole] = "sunsetTime";
     return Roles;
 }
 

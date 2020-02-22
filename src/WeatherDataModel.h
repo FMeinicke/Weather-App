@@ -38,6 +38,15 @@ public:
         TheTempRole,
         MinTempRole,
         MaxTempRole,
+        WindSpeedRole,
+        WindDirectionRole,
+        WindDirCompassRole,
+        AirPressureRole,
+        HumidityRole,
+        VisibilityRole,
+        ConfidenceRole,
+        SunriseTimeRole,
+        SunsetTimeRole,
     };
 
     explicit CWeatherDataModel(QObject* parent = nullptr);
