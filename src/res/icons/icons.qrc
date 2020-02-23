@@ -4,5 +4,6 @@
         <file alias="close">baseline_close_black_48.png</file>
         <file alias="search_white">baseline_search_white_48.png</file>
         <file alias="double_arrow_black">baseline_double_arrow_black_48.png</file>
+        <file alias="windarrow">windarrow.svg</file>
     </qresource>
 </RCC>

@@ -14,7 +14,7 @@ ItemDelegate {
   id: root
 
   width: Screen.width
-  height: layout.height * 1.4
+  height: layoutMain.height + 2 * offset
 
   property string date: "Today"
   property string weatherStateName: "Cloudy"
@@ -22,6 +22,15 @@ ItemDelegate {
   property real theTemp: 3
   property real minTemp: 0
   property real maxTemp: 4
+  property real windSpeed: 11
+  property real windDirection: 247.5
+  property string windDirCompass: "WSW"
+  property real pressure: 1010
+  property real humidity: 0.79
+  property real visibility: 10
+  property real confidence: 77
+  property date sunrise: "2020-02-23 07:32"
+  property date sunset: "2020-02-23 18:14"
 
   property int offset: 10
 
@@ -37,13 +46,16 @@ ItemDelegate {
     anchors.leftMargin: root.offset
     anchors.rightMargin: root.offset
 
-    GridLayout {
-      id: layout
+    ColumnLayout {
+      id: layoutMain
 
       anchors.top: parent.top
       anchors.topMargin: root.offset
       anchors.left: parent.left
       anchors.leftMargin: root.offset
+
+      GridLayout {
+        id: layoutLess
 
       Label {
         id: lblDate
@@ -79,7 +91,7 @@ ItemDelegate {
 
         fillMode: Image.PreserveAspectFit
 
-        Layout.leftMargin: 10
+          Layout.leftMargin: root.offset
         autoTransform: true
       }
 
@@ -98,6 +110,82 @@ ItemDelegate {
 
         Layout.row: 3
       }
+    }
+
+      GridLayout {
+        id: layoutMore
+
+        Layout.row: 1
+
+        Label {
+          id: lblWind
+
+          text: qsTr("Wind: %1 mph").arg(root.windSpeed)
+
+          Layout.row: 4
+          Layout.topMargin: root.offset * 1.5
+        }
+
+        Image {
+          id: imgWindDir
+
+          source: "qrc:/icons/windarrow"
+          sourceSize.height: 16
+          fillMode: Image.PreserveAspectFit
+          rotation: root.windDirection
+
+          Layout.topMargin: root.offset
+        }
+
+        Label {
+          id: lblPressure
+
+          text: qsTr("Air Pressure: %1 mbar").arg(root.pressure)
+
+          Layout.topMargin: root.offset * 1.5
+          Layout.leftMargin: root.offset * 3
+        }
+
+        Label {
+          id: lblHumidity
+
+          text: qsTr("Humidity: %1%").arg(root.humidity * 100)
+
+          Layout.row: 5
+          Layout.columnSpan: 3
+          Layout.topMargin: root.offset * 1.5
+        }
+
+        Label {
+          id: lblVisibility
+
+          text: qsTr("Visibility: %1 miles").arg(root.visibility)
+
+          Layout.row: 6
+          Layout.columnSpan: 3
+          Layout.topMargin: root.offset * 1.5
+        }
+
+        Label {
+          id: lblSunrise
+
+          text: qsTr("Sunrise: %1").arg(Qt.formatDateTime(root.sunrise, "hh:mm"))
+
+          Layout.row: 7
+          Layout.columnSpan: 3
+          Layout.topMargin: root.offset * 1.5
+        }
+
+        Label {
+          id: lblSunset
+
+          text: qsTr("Sunset: %1").arg(Qt.formatDateTime(root.sunset, "hh:mm"))
+
+          Layout.row: 8
+          Layout.columnSpan: 3
+        }
+      }
+
     }
   }
 
