@@ -24,9 +24,6 @@ ApplicationWindow {
 
     RowLayout {
       anchors.fill: parent
-      Component.onCompleted: {
-        console.log("width: " + width + ", height: " + height)
-      }
 
       ToolButton {
         id: hamburgerMenuButton
