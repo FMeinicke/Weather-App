@@ -56,18 +56,6 @@ Page {
 
       model: ListModel {
         id: locationResultsModel
-// dummy elements:
-        //ListElement { "location": "San Francisco" }
-        //ListElement { "location": "San Diego" }
-        //ListElement { "location": "San Jose" }
-        //ListElement { "location": "San Antonio" }
-        //ListElement { "location": "Santa Cruz" }
-        //ListElement { "location": "Santiago" }
-        //ListElement { "location": "Santorini" }
-        //ListElement { "location": "Santander" }
-        //ListElement { "location": "Busan" }
-        //ListElement { "location": "Santa Cruz de Tenerife" }
-        //ListElement { "location": "Santa Fe" }
       }
 
       delegate: Button {
@@ -79,7 +67,7 @@ Page {
           weatherApi.setLocationByIndex(index)
           weatherApi.requestWeatherData()
           // replace the HomeForm with the WeatherForecastPageForm
-          stackView.replace(stackView.get(0), "WeatherForecastPageForm.ui.qml",
+          stackView.replace(stackView.get(0), "WeatherForecastPageForm.qml",
                             StackView.PopTransition)
         }
 
