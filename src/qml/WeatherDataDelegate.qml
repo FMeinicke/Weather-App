@@ -26,7 +26,7 @@ ItemDelegate {
   property real windDirection: 247.5
   property string windDirCompass: "WSW"
   property real pressure: 1010
-  property real humidity: 0.79
+  property real humidity: 79
   property real visibility: 10
   property real confidence: 77
   property date sunrise: "2020-02-23 07:32"
@@ -147,7 +147,7 @@ ItemDelegate {
         Label {
           id: lblWind
 
-          text: qsTr("Wind: %1 mph").arg(root.windSpeed)
+          text: qsTr("Wind: %1 km/h").arg(root.windSpeed)
 
           Layout.row: 4
           Layout.topMargin: root.offset * 1.5
@@ -167,7 +167,7 @@ ItemDelegate {
         Label {
           id: lblPressure
 
-          text: qsTr("Air Pressure: %1 mbar").arg(root.pressure)
+          text: qsTr("Air Pressure: %1 hPa").arg(root.pressure)
 
           Layout.topMargin: root.offset * 1.5
           Layout.leftMargin: root.offset * 3
@@ -186,7 +186,7 @@ ItemDelegate {
         Label {
           id: lblVisibility
 
-          text: qsTr("Visibility: %1 miles").arg(root.visibility)
+          text: qsTr("Visibility: %1 km").arg(root.visibility.toPrecision(2))
 
           Layout.row: 6
           Layout.columnSpan: 3
