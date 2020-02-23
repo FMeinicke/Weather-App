@@ -211,6 +211,13 @@ void CWeatherApi::addCurrentLocationToFavourites()
 }
 
 //=============================================================================
+void CWeatherApi::removeCurrentLocationFromFavourites()
+{
+    m_FavouriteLocations.remove(m_LocationName);
+    emit favouriteLocationsChanged();
+}
+
+//=============================================================================
 void CWeatherApi::onReadyRead()
 {
     m_DataBuffer += m_NetReply->readAll();

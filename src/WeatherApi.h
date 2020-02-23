@@ -151,6 +151,11 @@ public slots:
      */
     void addCurrentLocationToFavourites();
 
+    /**
+     * @brief Removes the current location from the list of favourite locations
+     */
+    void removeCurrentLocationFromFavourites();
+
 private slots:
     /**
      * @brief Reads the data from the network reply into the internal buffer and
