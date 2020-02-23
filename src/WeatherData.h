@@ -158,16 +158,23 @@ public:
     /**
      * @brief Get the wind speed
      *
-     * @return qreal The wind speed in mph
+     * @return qreal The wind speed in km/h
      */
     qreal windSpeed() const;
 
     /**
      * @brief Set the wind speed
      *
-     * @param speed The new wind speed in mph
+     * @param speed The new wind speed in km/h
      */
     void setWindSpeed(const qreal& speed);
+
+    /**
+     * @brief Set the wind speed. It will be converted to km/h
+     *
+     * @param speed The new wind speed in mph
+     */
+    void setWindSpeedInMph(const qreal& speed);
 
     /**
      * @brief Get the wind direction
@@ -200,14 +207,14 @@ public:
     /**
      * @brief Get the current air pressure
      *
-     * @return qreal The air pressure in mbar
+     * @return qreal The air pressure in mbar (= hPa)
      */
     qreal airPressure() const;
 
     /**
      * @brief Set the air pressure
      *
-     * @param pressure The new air pressure in mbar
+     * @param pressure The new air pressure in mbar (= hPa)
      */
     void setAirPressure(const qreal& pressure);
 
@@ -228,16 +235,23 @@ public:
     /**
      * @brief Get the current visibility
      *
-     * @return qreal The visibility in miles
+     * @return qreal The visibility in kilometres
      */
     qreal visibility() const;
 
     /**
      * @brief Set the visibility
      *
-     * @param qreal The new visibility in miles
+     * @param qreal The new visibility in kilometres
      */
     void setVisibility(const qreal& visibility);
+
+    /**
+     * @brief Set the visibility. It will be converted into kilometres
+     *
+     * @param qreal The new visibility in miles
+     */
+    void setVisibilityInMiles(const qreal& visibility);
 
     /**
      * @brief Get the current confidence
@@ -366,12 +380,12 @@ private:
     qreal m_TheTemp{};                 ///< the current temperature in °C
     qreal m_MinTemp{};           ///< the minimum temperature in °C for the day
     qreal m_MaxTemp{};           ///< the maximum temperature in °C for the day
-    qreal m_WindSpeed{};         ///< wind speed in mph
+    qreal m_WindSpeed{};         ///< wind speed in km/h
     qreal m_WindDirection{};     ///< direction of the wind in degrees
     QString m_WindDirCompass{};  ///< compass point of the wind direction
-    qreal m_AirPressure{};       ///< air pressure in mbar
+    qreal m_AirPressure{};       ///< air pressure in mbar (= hPa)
     qreal m_Humidity{};          ///< humidity in percent
-    qreal m_Visibility{};        ///< visibility in miles
+    qreal m_Visibility{};        ///< visibility in kilometres
     int m_Confidence{};          ///< confidence of the forecast in percent
     QDateTime m_SunriseTime{};   ///< time of sunrise
     QDateTime m_SunsetTime{};    ///< time of sunset
