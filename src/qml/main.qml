@@ -8,6 +8,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Window 2.3
 import QtQuick.Layouts 1.12
+import QtQuick.Controls.Material 2.12
+import QtQml.StateMachine 1.0 as DSM
 
 ApplicationWindow {
   id: window
@@ -92,7 +94,10 @@ ApplicationWindow {
       text: qsTr("Add Location to Favourites")
       enabled: stackView.currentItem.objectName === "WeatherForcastPage"
 
-      onTriggered: weatherApi.addCurrentLocationToFavourites()
+      onTriggered: {
+        weatherApi.addCurrentLocationToFavourites()
+        paneUndoFavLocation.show()
+      }
     }
 
     onClosed: isOpen = false
@@ -153,6 +158,68 @@ ApplicationWindow {
     anchors.fill: parent
   }
 
+  Pane {
+    id: paneUndoFavLocation
+
+    opacity: stateMachine.running
+
+    Behavior on opacity {
+      NumberAnimation {
+        easing.type: Easing.InOutQuad
+        duration: 400}
+    }
+
+    Material.theme: Material.Dark
+
+    height: 48
+    width: parent.width
+    anchors.bottom: parent.bottom
+
+    RowLayout {
+      anchors.topMargin: -11
+      anchors.fill: parent
+
+      Label {
+        text: qsTr("Added %1 to Favourites").arg(stackView.currentItem.title)
+      }
+
+      Button {
+        text: qsTr("Undo")
+        flat: true
+        Material.foreground: Material.Yellow
+
+        Layout.alignment: Qt.AlignRight
+
+        onClicked: {
+          weatherApi.removeCurrentLocationFromFavourites()
+          stateMachine.running = false
+        }
+      }
+    }
+
+    DSM.StateMachine {
+        id: stateMachine
+
+        initialState: hidden
+        running: false
+
+        DSM.State {
+            id: hidden
+            DSM.TimeoutTransition {
+                targetState: shown
+                timeout: 2500
+            }
+        }
+
+        DSM.FinalState {
+            id: shown
+        }
+    }
+
+    function show() {
+      stateMachine.running = true
+    }
+  }
 
   /**
    * @brief Replaces the WeatherForecastPageForm with the HomeForm in case the
