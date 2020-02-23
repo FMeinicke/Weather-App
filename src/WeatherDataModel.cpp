@@ -88,7 +88,8 @@ bool CWeatherDataModel::setData(const QModelIndex& index, const QVariant& value,
         m_WeatherDataList[index.row()].setMaxTemp(value.toDouble());
         break;
     case WindSpeedRole:
-        m_WeatherDataList[index.row()].setWindSpeed(value.toDouble());
+        // always assume the value comes as imperial unit
+        m_WeatherDataList[index.row()].setWindSpeedInMph(value.toDouble());
         break;
     case WindDirectionRole:
         m_WeatherDataList[index.row()].setWindDirection(value.toDouble());
@@ -103,7 +104,8 @@ bool CWeatherDataModel::setData(const QModelIndex& index, const QVariant& value,
         m_WeatherDataList[index.row()].setHumidity(value.toDouble());
         break;
     case VisibilityRole:
-        m_WeatherDataList[index.row()].setVisibility(value.toDouble());
+        // always assume the value comes as imperial unit
+        m_WeatherDataList[index.row()].setVisibilityInMiles(value.toDouble());
         break;
     case ConfidenceRole:
         m_WeatherDataList[index.row()].setConfidence(value.toInt());
