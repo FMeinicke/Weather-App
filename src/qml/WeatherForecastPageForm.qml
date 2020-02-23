@@ -41,6 +41,15 @@ Page {
         theTemp: model.theTemp
         minTemp: model.minTemp
         maxTemp: model.maxTemp
+        windSpeed: model.windSpeed
+        windDirection: model.windDirection
+        windDirCompass: model.windDirCompass
+        pressure: model.airPressure
+        humidity: model.humidity
+        visibility: model.visibility
+        confidence: model.confidence
+        sunrise: model.sunriseTime
+        sunset: model.sunsetTime
       }
     }
   }
