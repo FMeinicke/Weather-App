@@ -73,6 +73,7 @@ CWeatherApi::~CWeatherApi()
 
     // save favourite locations
     m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
+    m_Settings->remove(""); // ensure to delete entries that are no longer present
     foreach (const auto& Key, m_FavouriteLocations.keys())
     {
         m_Settings->setValue(Key, m_FavouriteLocations.value(Key));
