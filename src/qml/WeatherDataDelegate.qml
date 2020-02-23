@@ -34,6 +34,33 @@ ItemDelegate {
 
   property int offset: 10
 
+  state: "minimal"
+
+  states: [
+    State {
+      name: "minimal"
+      PropertyChanges {
+        target: layoutMore
+        visible: false
+      }
+      PropertyChanges {
+        target: btnShowMore
+        text: qsTr("Full forecast")
+      }
+    },
+    State {
+      name: "expanded"
+      PropertyChanges {
+        target: layoutMore
+        visible: true
+      }
+      PropertyChanges {
+        target: btnShowMore
+        text: qsTr("Show less")
+      }
+    }
+  ]
+
   Rectangle {
     id: rectBorder
 
@@ -57,60 +84,60 @@ ItemDelegate {
       GridLayout {
         id: layoutLess
 
-      Label {
-        id: lblDate
+        Label {
+          id: lblDate
 
-        text: qsTr(root.date)
-        color: "#90000000"
+          text: qsTr(root.date)
+          color: "#90000000"
 
-        Layout.columnSpan: 2
-      }
+          Layout.columnSpan: 2
+        }
 
-      Label {
-        id: lblTheTemp
+        Label {
+          id: lblTheTemp
 
-        text: qsTr("%1 °C").arg(root.theTemp.toPrecision(2))
-        font.pointSize: Qt.application.font.pointSize * 1.4
+          text: qsTr("%1 °C").arg(root.theTemp.toPrecision(2))
+          font.pointSize: Qt.application.font.pointSize * 1.4
 
-        Layout.row: 1
-      }
+          Layout.row: 1
+        }
 
-      Label {
-        id: lblWeatherState
+        Label {
+          id: lblWeatherState
 
-        text: qsTr(root.weatherStateName)
-        font.pointSize: Qt.application.font.pointSize * 1.4
-      }
+          text: qsTr(root.weatherStateName)
+          font.pointSize: Qt.application.font.pointSize * 1.4
+        }
 
-      Image {
-        id: imgWeatherState
+        Image {
+          id: imgWeatherState
 
-        source: "https://www.metaweather.com/static/img/weather/png/"
-                + root.weatherStateAbbr + ".png"
-        sourceSize.height: 48
+          source: "https://www.metaweather.com/static/img/weather/png/"
+                  + root.weatherStateAbbr + ".png"
+          sourceSize.height: 48
 
-        fillMode: Image.PreserveAspectFit
+          fillMode: Image.PreserveAspectFit
 
           Layout.leftMargin: root.offset
-        autoTransform: true
+          autoTransform: true
+        }
+
+        Label {
+          id: lblMinTemp
+
+          text: qsTr("Min: %1 °C").arg(root.minTemp.toPrecision(2))
+
+          Layout.row: 2
+        }
+
+        Label {
+          id: lblMaxTemp
+
+          text: qsTr("Max: %1 °C").arg(root.maxTemp.toPrecision(2))
+
+          Layout.row: 3
+        }
       }
-
-      Label {
-        id: lblMinTemp
-
-        text: qsTr("Min: %1 °C").arg(root.minTemp.toPrecision(2))
-
-        Layout.row: 2
-      }
-
-      Label {
-        id: lblMaxTemp
-
-        text: qsTr("Max: %1 °C").arg(root.maxTemp.toPrecision(2))
-
-        Layout.row: 3
-      }
-    }
 
       GridLayout {
         id: layoutMore
@@ -186,6 +213,17 @@ ItemDelegate {
         }
       }
 
+      Button {
+        id: btnShowMore
+
+        text: qsTr("Full forecast")
+        flat: true
+
+        Layout.row: 2
+
+        onClicked: root.state === "minimal" ? root.state = "expanded" :
+                                              root.state = "minimal"
+      }
     }
   }
 
