@@ -176,7 +176,7 @@ ItemDelegate {
         Label {
           id: lblHumidity
 
-          text: qsTr("Humidity: %1%").arg(root.humidity * 100)
+          text: qsTr("Humidity: %1%").arg(root.humidity)
 
           Layout.row: 5
           Layout.columnSpan: 3

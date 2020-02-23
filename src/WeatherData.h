@@ -214,14 +214,14 @@ public:
     /**
      * @brief Get the current humidity
      *
-     * @return qreal The humidity in percent (0.0 - 1.0)
+     * @return qreal The humidity in percent (0 - 100)
      */
     qreal humidity() const;
 
     /**
      * @brief Set the humidity
      *
-     * @param qreal The new humidity in percent (0.0 - 1.0)
+     * @param qreal The new humidity in percent (0 - 100)
      */
     void setHumidity(const qreal& humidity);
 
