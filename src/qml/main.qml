@@ -84,17 +84,68 @@ ApplicationWindow {
     property bool isOpen: false
 
     x: window.width - width - 2
-    width: favMenu.implicitWidth
+    width: menuFav.implicitWidth
 
     MenuItem {
-      id: favMenu
-      text: qsTr("Add Location to Favourites")
-      enabled: stackView.currentItem.objectName === "WeatherForcastPage"
+      id: menuFav
 
-      onTriggered: {
-        weatherApi.addCurrentLocationToFavourites()
-        paneUndoFavLocation.show()
-      }
+      state: weatherApi.favouriteLocations.includes(stackView.currentItem.title) ?
+               "remove" : "add"
+
+      states: [
+        State {
+          name: "add"
+          PropertyChanges {
+            target: menuFav
+            text: qsTr("Add Location to Favourites")
+
+            onTriggered: {
+              paneUndoFavLocation.show(qsTr("Added %1 to Favourites")
+                                       .arg(stackView.currentItem.title))
+              weatherApi.addCurrentLocationToFavourites()
+            }
+          }
+          PropertyChanges {
+            target: btnUndo
+
+            onClicked: {
+              // This undo action can only be triggered after a location has
+              // already been removed. Therefore the state will be "add" again
+              // instead of "remove". Hence this undo action actually belongs to
+              // the "remove" state and re-adds the removed location.
+              weatherApi.addCurrentLocationToFavourites()
+              stateMachine.running = false
+            }
+          }
+        },
+        State {
+          name: "remove"
+          PropertyChanges {
+            target: menuFav
+            text: qsTr("Remove Location from Favourites")
+
+            onTriggered: {
+              paneUndoFavLocation.show(qsTr("Removed %1 from Favourites")
+                                       .arg(stackView.currentItem.title))
+              weatherApi.removeCurrentLocationFromFavourites()
+            }
+          }
+          PropertyChanges {
+            target: btnUndo
+
+            onClicked: {
+              // This undo action can only be triggered after a location has
+              // already been added. Therefore the state will be "remove" again
+              // instead of "add". Hence this undo action actually belongs to
+              // the "add" state and removes the added location.
+              weatherApi.removeCurrentLocationFromFavourites()
+              stateMachine.running = false
+            }
+          }
+        }
+      ]
+
+      enabled: stackView.currentItem.objectName === "WeatherForcastPage"
     }
 
     onClosed: isOpen = false
@@ -158,6 +209,8 @@ ApplicationWindow {
   Pane {
     id: paneUndoFavLocation
 
+    property string text
+
     opacity: stateMachine.running
 
     Behavior on opacity {
@@ -177,20 +230,17 @@ ApplicationWindow {
       anchors.fill: parent
 
       Label {
-        text: qsTr("Added %1 to Favourites").arg(stackView.currentItem.title)
+        text: paneUndoFavLocation.text
       }
 
       Button {
+        id: btnUndo
+
         text: qsTr("Undo")
         flat: true
         Material.foreground: Material.Yellow
 
         Layout.alignment: Qt.AlignRight
-
-        onClicked: {
-          weatherApi.removeCurrentLocationFromFavourites()
-          stateMachine.running = false
-        }
       }
     }
 
@@ -213,7 +263,14 @@ ApplicationWindow {
         }
     }
 
-    function show() {
+    /**
+     * @brief Show the undo pane at he bottom of the screen displaying the given
+     * message @a text.
+     *
+     * @param text The message to display when showing the pane
+     */
+    function show(text) {
+      paneUndoFavLocation.text = text
       stateMachine.running = true
     }
   }
