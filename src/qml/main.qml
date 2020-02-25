@@ -28,8 +28,10 @@ ApplicationWindow {
       ToolButton {
         id: hamburgerMenuButton
 
-        text: stackView.depth > 1 ? "\u25c4" : "\u2261"
-        font.pixelSize: Qt.application.font.pixelSize * 1.6
+        icon.source: stackView.depth > 1 ? "qrc:/icons/arrow_back_white" :
+                                           "qrc:/icons/hamburger_menu_white"
+        icon.color: 'transparent'
+
         onClicked: {
           if (stackView.depth > 1) {
             stackView.pop()
@@ -68,7 +70,8 @@ ApplicationWindow {
       ToolButton {
         id: menuButton
 
-        text: "\u22ee"
+        icon.source: "qrc:/icons/three_dots_white"
+        icon.color: 'transparent'
 
         Layout.alignment: Qt.AlignTop
         font.pixelSize: Qt.application.font.pixelSize * 1.6
@@ -202,8 +205,9 @@ ApplicationWindow {
 
   StackView {
     id: stackView
-    initialItem: "WeatherForecastPageForm.qml"
+
     anchors.fill: parent
+    initialItem: "WeatherForecastPageForm.qml"
   }
 
   Pane {
