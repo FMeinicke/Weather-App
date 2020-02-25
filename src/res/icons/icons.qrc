@@ -5,5 +5,8 @@
         <file alias="search_white">baseline_search_white_48.png</file>
         <file alias="double_arrow_black">baseline_double_arrow_black_48.png</file>
         <file alias="windarrow">windarrow.svg</file>
+        <file alias="hamburger_menu_white">baseline_menu_white_48.png</file>
+        <file alias="three_dots_white">baseline_more_vert_white_48.png</file>
+        <file alias="arrow_back_white">baseline_arrow_back_white_48.png</file>
     </qresource>
 </RCC>
