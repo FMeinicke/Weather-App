@@ -5,7 +5,6 @@
 /// \brief  A page providing a search bar to search for locations
 //============================================================================
 import QtQuick 2.12
-import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
@@ -15,9 +14,6 @@ Page {
   padding: 5
 
   title: qsTr("Weather Forecast")
-
-  width: ScreenInfo.width
-  height: ScreenInfo.height
 
   ColumnLayout {
     anchors.horizontalCenter: parent.horizontalCenter
