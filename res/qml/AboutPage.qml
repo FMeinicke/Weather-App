@@ -11,7 +11,11 @@ import QtQuick.Layouts 1.12
 Page {
   id: page
 
+  title: qsTr("About")
+
   ColumnLayout {
+    id: layout
+
     anchors.fill: parent
     anchors.topMargin: 2 * spacing
     spacing: 10
@@ -41,9 +45,10 @@ Page {
       id: imgAppIcon
 
       source: "qrc:/icons/weather_app"
-      height: 75
+      sourceSize.height: 75
 
       Layout.fillWidth: true
+      Layout.topMargin: -2 * layout.spacing
       fillMode: Image.PreserveAspectFit
     }
 
@@ -91,8 +96,8 @@ Page {
     }
 
     Text {
-      text: qsTr("<html>This app uses the wonderful free API " +
-                 "<a href='https://www.metaweather.com'>MetaWeather.com</a> " +
+      text: qsTr("<html>This app uses the free API available at " +
+                 "<a href='https://www.metaweather.com'>MetaWeather.com</a>. " +
                  "All weather icons as well as the app icon are taken from " +
                  "there.</html>")
       textFormat: Text.RichText
