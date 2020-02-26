@@ -151,6 +151,21 @@ ApplicationWindow {
       enabled: stackView.currentItem.objectName === "WeatherForcastPage"
     }
 
+    MenuItem {
+      id: menuAbout
+
+    property Item currentAboutPage
+
+      text: qsTr("About")
+
+      onTriggered: {
+        // prevent "AboutPage" to be pushed onto the stack multiple times
+        if (stackView.currentItem.title !== qsTr("About")) {
+          stackView.push("AboutPage.qml")
+        }
+      }
+    }
+
     onClosed: isOpen = false
 
     function toggle() {
