@@ -16,7 +16,7 @@ Page {
   ColumnLayout {
     id: layout
 
-    width: parent.width
+    width: parent.width - 2 * spacing
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.topMargin: 2 * spacing
     spacing: 10
