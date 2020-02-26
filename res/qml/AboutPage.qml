@@ -16,14 +16,15 @@ Page {
   ColumnLayout {
     id: layout
 
-    anchors.fill: parent
+    width: parent.width
+    anchors.horizontalCenter: parent.horizontalCenter
     anchors.topMargin: 2 * spacing
     spacing: 10
 
     Text {
       id: txtAppName
 
-      text: Qt.application.name
+      text: "Mobile Weather"
       font.pixelSize: Qt.application.font.pixelSize * 2
       font.weight: Font.Bold
 
@@ -48,7 +49,6 @@ Page {
       sourceSize.height: 75
 
       Layout.fillWidth: true
-      Layout.topMargin: -2 * layout.spacing
       fillMode: Image.PreserveAspectFit
     }
 
