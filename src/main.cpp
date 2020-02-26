@@ -18,7 +18,7 @@
 int main(int argc, char* argv[])
 {
     // set application name and vendor (for QSettings)
-    QCoreApplication::setApplicationName(QStringLiteral("Weather-App"));
+    QCoreApplication::setApplicationName(QStringLiteral("Mobile Weather"));
     QCoreApplication::setOrganizationName(QStringLiteral("FMeinicke"));
 
     // auto generated code
