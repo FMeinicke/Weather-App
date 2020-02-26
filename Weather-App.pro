@@ -27,6 +27,7 @@ HEADERS += \
     src/WeatherDataModel.h
 
 RESOURCES += res/qml/qml.qrc \
+       res/fonts/fonts.qrc \
        res/icons/icons.qrc
 
 

@@ -11,6 +11,8 @@
 //============================================================================
 #include "WeatherApi.h"
 
+#include <QFont>
+#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -27,6 +29,12 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    // set app font - work around for QTBUG-69494
+    const auto id =
+        QFontDatabase::addApplicationFont(":/fonts/Roboto/Roboto-Regular.ttf");
+    const auto family = QFontDatabase::applicationFontFamilies(id).at(0);
+    app.setFont({family, 16});
 
     // make C++ class available to QML
     CWeatherApi WeatherApi;
