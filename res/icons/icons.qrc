@@ -8,5 +8,6 @@
         <file alias="hamburger_menu_white">baseline_menu_white_48.png</file>
         <file alias="three_dots_white">baseline_more_vert_white_48.png</file>
         <file alias="arrow_back_white">baseline_arrow_back_white_48.png</file>
+        <file alias="weather_app">ic_launcher.png</file>
     </qresource>
 </RCC>

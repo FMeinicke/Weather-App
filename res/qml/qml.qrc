@@ -7,5 +7,6 @@
         <file>WeatherForecastPageForm.qml</file>
         <file>SearchBox.qml</file>
         <file>WeatherDataDelegate.qml</file>
+        <file>AboutPage.qml</file>
     </qresource>
 </RCC>
