@@ -26,8 +26,8 @@ HEADERS += \
     src/WeatherData.h \
     src/WeatherDataModel.h
 
-RESOURCES += src/qml/qml.qrc \
-       src/res/icons/icons.qrc
+RESOURCES += res/qml/qml.qrc \
+       res/icons/icons.qrc
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
