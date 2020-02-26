@@ -147,7 +147,7 @@ ItemDelegate {
         Label {
           id: lblWind
 
-          text: qsTr("Wind: %1 km/h").arg(root.windSpeed)
+          text: qsTr("Wind: %1 km/h").arg(root.windSpeed.toPrecision(3))
 
           Layout.row: 4
           Layout.topMargin: root.offset * 1.5
