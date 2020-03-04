@@ -8,49 +8,85 @@ import QtQuick 2.12
 import QtQuick.Window 2.3
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
+import QtGraphicalEffects 1.12
 
 Page {
   id: root
+
+  property bool apiRequestRunning: true
+
   objectName: "WeatherForcastPage"
 
   title: weatherApi.locationName
 
-  width: ScreenInfo.width
-  height: ScreenInfo.height
+  Connections {
+    target: weatherApi
+    onWeatherDataModelChanged: root.apiRequestRunning = false
+  }
 
-  ScrollView {
+  BusyIndicator {
+        id: busyIndicator
+
+        running: root.apiRequestRunning
+
+        height: 40
+        width: height
+        z: 1
+
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.top: parent.top
+        anchors.topMargin: 10
+
+        background: Rectangle {
+          id: rectBackground
+
+          visible: root.apiRequestRunning
+          color: "white"
+          radius: 100
+        }
+
+        DropShadow {
+          anchors.fill: rectBackground
+          radius: 5.0
+          color: "#60000000"
+          source: rectBackground
+          visible: rectBackground.visible
+        }
+      }
+
+  ListView {
     id: weatherDataView
 
-    anchors.fill: parent
+    property bool flicked: false
 
-    ListView {
-      width: parent.width
-      model: weatherApi.weatherDataModel
-      delegate: WeatherDataDelegate {
-        date: {
-          if (index === 0) {
-            return qsTr("Today")
-          } else if (index === 1) {
-            return qsTr("Tomorrow")
-          } else {
-            return Qt.formatDate(model.date, "dddd, dd/MM/yyyy")
-          }
+    anchors.fill: parent
+    width: parent.width
+
+    model: root.apiRequestRunning ? 0 : weatherApi.weatherDataModel
+    delegate: WeatherDataDelegate {
+      date: {
+        if (index === 0) {
+          return qsTr("Today")
+        } else if (index === 1) {
+          return qsTr("Tomorrow")
+        } else {
+          return Qt.formatDate(model.date, "dddd, dd/MM/yyyy")
         }
-        weatherStateName: model.weatherStateName
-        weatherStateAbbr: model.weatherStateAbbr
-        theTemp: model.theTemp
-        minTemp: model.minTemp
-        maxTemp: model.maxTemp
-        windSpeed: model.windSpeed
-        windDirection: model.windDirection
-        windDirCompass: model.windDirCompass
-        pressure: model.airPressure
-        humidity: model.humidity
-        visibility: model.visibility
-        confidence: model.confidence
-        sunrise: model.sunriseTime
-        sunset: model.sunsetTime
       }
+      weatherStateName: model.weatherStateName
+      weatherStateAbbr: model.weatherStateAbbr
+      theTemp: model.theTemp
+      minTemp: model.minTemp
+      maxTemp: model.maxTemp
+      windSpeed: model.windSpeed
+      windDirection: model.windDirection
+      windDirCompass: model.windDirCompass
+      pressure: model.airPressure
+      humidity: model.humidity
+      visibility: model.visibility
+      confidence: model.confidence
+      sunrise: model.sunriseTime
+      sunset: model.sunsetTime
     }
   }
 }
