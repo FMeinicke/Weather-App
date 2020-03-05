@@ -12,6 +12,7 @@ Page {
     id: root
 
     title: qsTr("Weather Forecast")
+    objectName: "HomeForm"
 
     GridLayout {
         anchors.horizontalCenter: parent.horizontalCenter
