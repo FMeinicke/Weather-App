@@ -25,34 +25,34 @@ Page {
   }
 
   BusyIndicator {
-        id: busyIndicator
+    id: busyIndicator
 
-        running: root.apiRequestRunning
+    running: root.apiRequestRunning
 
-        height: 40
-        width: height
-        z: 1
+    height: 40
+    width: height
+    z: 1
 
-        anchors.horizontalCenter: parent.horizontalCenter
-        anchors.top: parent.top
-        anchors.topMargin: 10
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.top: parent.top
+    anchors.topMargin: 10
 
-        background: Rectangle {
-          id: rectBackground
+    background: Rectangle {
+      id: rectBackground
 
-          visible: root.apiRequestRunning
-          color: "white"
-          radius: 100
-        }
+      visible: root.apiRequestRunning
+      color: "white"
+      radius: 100
+    }
 
-        DropShadow {
-          anchors.fill: rectBackground
-          radius: 5.0
-          color: "#60000000"
-          source: rectBackground
-          visible: rectBackground.visible
-        }
-      }
+    DropShadow {
+      anchors.fill: rectBackground
+      radius: 5.0
+      color: "#60000000"
+      source: rectBackground
+      visible: rectBackground.visible
+    }
+  }
 
   ListView {
     id: weatherDataView
