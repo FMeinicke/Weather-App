@@ -14,6 +14,17 @@ import QtQml.StateMachine 1.0 as DSM
 ApplicationWindow {
   id: window
 
+  /**
+   * @brief Show the undo pane at he bottom of the screen displaying the given
+   * message @a text.
+   *
+   * @param text The message to display when showing the pane
+   */
+  function show(text) {
+    paneUndoFavLocation.text = text
+    stateMachine.running = true
+  }
+
   visible: true
   width: ScreenInfo.width
   height: ScreenInfo.height
@@ -154,7 +165,7 @@ ApplicationWindow {
     MenuItem {
       id: menuAbout
 
-    property Item currentAboutPage
+      property Item currentAboutPage
 
       text: qsTr("About")
 
@@ -223,6 +234,46 @@ ApplicationWindow {
 
     anchors.fill: parent
     initialItem: "WeatherForecastPageForm.qml"
+
+
+    // Implements back key navigation
+    focus: true
+    property bool wantsQuit: false
+
+    onFocusChanged: {
+      if (!focus) {
+        forceActiveFocus()
+      }
+    }
+
+    ToolTip {
+      id: quitMsg
+
+      text: qsTr("Press again to quit...")
+      y: parent.height - 50
+      visible: stackView.wantsQuit
+      timeout: 2100
+      delay: 500
+
+      onClosed: {
+        if (stackView.wantsQuit) {
+          // user pressed back button twice within a small intervall - quit app
+          window.close()
+        }
+      }
+    }
+
+    Keys.onBackPressed: {
+      if (depth > 1) {
+        // if not on the main page, don't close the app on back key press
+        // just go back one page
+        wantsQuit = false
+        pop()
+      } else if (!wantsQuit) {
+        // close on next back button press
+        wantsQuit = true
+      }
+    }
   }
 
   Pane {
@@ -264,33 +315,22 @@ ApplicationWindow {
     }
 
     DSM.StateMachine {
-        id: stateMachine
+      id: stateMachine
 
-        initialState: hidden
-        running: false
+      initialState: hidden
+      running: false
 
-        DSM.State {
-            id: hidden
-            DSM.TimeoutTransition {
-                targetState: shown
-                timeout: 2500
-            }
+      DSM.State {
+        id: hidden
+        DSM.TimeoutTransition {
+          targetState: shown
+          timeout: 2500
         }
+      }
 
-        DSM.FinalState {
-            id: shown
-        }
-    }
-
-    /**
-     * @brief Show the undo pane at he bottom of the screen displaying the given
-     * message @a text.
-     *
-     * @param text The message to display when showing the pane
-     */
-    function show(text) {
-      paneUndoFavLocation.text = text
-      stateMachine.running = true
+      DSM.FinalState {
+        id: shown
+      }
     }
   }
 }
