@@ -19,6 +19,8 @@ Page {
 
   title: weatherApi.locationName
 
+  state: weatherApi.locationName ? "" : "noLocation"
+
   Connections {
     target: weatherApi
     onWeatherDataModelChanged: root.apiRequestRunning = false
@@ -89,4 +91,53 @@ Page {
       sunset: model.sunsetTime
     }
   }
+
+  GridLayout {
+    id: helpMessage
+
+    visible: false
+    width: parent.width
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    Image {
+      Layout.row: 0
+      Layout.alignment: Qt.AlignRight
+      Layout.rightMargin: 55
+
+      source: "qrc:/icons/double_arrow_black"
+      sourceSize.height: 50
+      sourceSize.width: height
+      fillMode: Image.PreserveAspectFit
+      rotation: -60
+    }
+
+    Label {
+      Layout.row: 1
+      Layout.fillWidth: true
+
+      text: qsTr("Tap the search icon above to search a location.")
+      font.pointSize: Qt.application.font.pointSize * 1.1
+      horizontalAlignment: Text.AlignHCenter
+      wrapMode: Text.WordWrap
+    }
+  }
+
+  states: [
+    State {
+      name: "noLocation"
+      PropertyChanges {
+        target: root
+        title: qsTr("Weather Forecast")
+        apiRequestRunning: false
+      }
+      PropertyChanges {
+        target: helpMessage
+        visible: true
+      }
+      PropertyChanges {
+        target: weatherDataView
+        visible: false
+      }
+    }
+  ]
 }

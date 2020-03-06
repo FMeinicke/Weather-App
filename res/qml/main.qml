@@ -293,12 +293,4 @@ ApplicationWindow {
       stateMachine.running = true
     }
   }
-
-  /**
-   * @brief Replaces the WeatherForecastPageForm with the HomeForm in case the
-   * app has been started for the first time to show the landing page.
-   */
-  function setFirstStartPage() {
-    stackView.replace("HomeForm.ui.qml")
-  }
 }
