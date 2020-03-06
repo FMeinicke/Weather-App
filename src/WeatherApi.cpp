@@ -17,6 +17,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>
+#include <QUrlQuery>
 
 using namespace std;
 
@@ -102,7 +103,11 @@ QStringList CWeatherApi::favouriteLocations()
 //=============================================================================
 void CWeatherApi::requestLocation(const QString& desiredLocation)
 {
-    m_NetRequest->setUrl({BASE_URL + "search/?query=" + desiredLocation});
+    auto Url = QUrl{BASE_URL + "search/"};
+    auto Query = QUrlQuery{};
+    Query.addQueryItem("query", desiredLocation);
+    Url.setQuery(Query);
+    m_NetRequest->setUrl(Url);
     m_NetReply.reset(m_NetAccessManager->get(*m_NetRequest));
 
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
