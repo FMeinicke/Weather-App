@@ -1,6 +1,6 @@
 include(third_party/android_openssl/openssl.pri)
 
-QT += quick network svg
+QT += quick network svg positioning
 
 CONFIG += c++17
 

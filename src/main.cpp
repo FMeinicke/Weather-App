@@ -52,13 +52,5 @@ int main(int argc, char* argv[])
         Qt::QueuedConnection);
     engine.load(url);
 
-    // special handling of the first start of the app
-    if (WeatherApi.locationName().isEmpty())
-    {
-        // app has been started for the first time -> show landing page
-        QMetaObject::invokeMethod(engine.rootObjects().first(),
-                                  "setFirstStartPage");
-    }
-
     return app.exec();
 }

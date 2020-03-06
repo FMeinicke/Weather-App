@@ -24,6 +24,8 @@
 //=============================================================================
 //                            FORWARD DECLARATIONS
 //=============================================================================
+class QGeoCoordinate;
+class QGeoPositionInfoSource;
 class QNetworkAccessManager;
 class QNetworkReply;
 class QNetworkRequest;
@@ -178,6 +180,14 @@ private:
      */
     void setLocationName(const QString& locationName);
 
+    /**
+     * @brief Set the location that should be used for all further API calls and
+     * is identified by the coordinates @a coordinates.
+     *
+     * @param coordinates The coordinates of the current location
+     */
+    void setLocationByCoords(const QGeoCoordinate& coordinate);
+
     std::unique_ptr<QNetworkAccessManager> m_NetAccessManager{};
     std::unique_ptr<QNetworkReply> m_NetReply{};
     std::unique_ptr<QNetworkRequest> m_NetRequest{};
@@ -188,6 +198,7 @@ private:
     std::unique_ptr<CWeatherDataModel> m_WeatherDataModel{};  ///< all the weather data
     std::unique_ptr<QSettings> m_Settings{};
     QMap<QString, int> m_FavouriteLocations{};  ///< map location names to WOEID's of fav locations
+    std::unique_ptr<QGeoPositionInfoSource> m_GeoPosInfoSource{};  ///< for retrieving the curret GPS location
 };
 
 #endif  // WEATHER_API_H
