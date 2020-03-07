@@ -246,13 +246,24 @@ ApplicationWindow {
       }
     }
 
+    Timer {
+      id: timer
+      interval: 2100
+      running: stackView.wantsQuit
+      repeat: false
+      onTriggered: {
+        // user didn't press back twice within the small intervall - doesn't want to quit
+        stackView.wantsQuit = false
+      }
+    }
+
     ToolTip {
       id: quitMsg
 
       text: qsTr("Press again to quit...")
       y: parent.height - 50
       visible: stackView.wantsQuit
-      timeout: 2100
+      timeout: timer.interval
       delay: 500
 
       onClosed: {
