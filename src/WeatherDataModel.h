@@ -85,9 +85,11 @@ public:
     bool setData(int index, const QVariant& value, int role = Qt::EditRole);
 
 private:
+    // clang-format off
     static constexpr size_t m_NumDays{6}; ///< for how many days weather data is available
 
     QList<CWeatherData> m_WeatherDataList{};
+    // clang-format on
 };
 
 #endif  // CWEATHERDATAMODEL_H

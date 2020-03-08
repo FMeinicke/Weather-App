@@ -154,8 +154,7 @@ QHash<int, QByteArray> CWeatherDataModel::roleNames() const
 }
 
 //=============================================================================
-bool CWeatherDataModel::setData(int index, const QVariant& value,
-                                int role)
+bool CWeatherDataModel::setData(int index, const QVariant& value, int role)
 {
     return setData(createIndex(index, 0), value, role);
 }

@@ -33,8 +33,8 @@ class CWeatherData : public QObject
     Q_PROPERTY(qreal windSpeed MEMBER m_WindSpeed NOTIFY windSpeedChanged)
     Q_PROPERTY(
         qreal windDirection MEMBER m_WindDirection NOTIFY windDirectionChanged)
-    Q_PROPERTY(
-        QString windDirCompass MEMBER m_WindDirCompass NOTIFY windDirCompassChanged)
+    Q_PROPERTY(QString windDirCompass MEMBER m_WindDirCompass NOTIFY
+                   windDirCompassChanged)
     Q_PROPERTY(qreal airPressure MEMBER m_AirPressure NOTIFY airPressureChanged)
     Q_PROPERTY(qreal humidity MEMBER m_Humidity NOTIFY humidityChanged)
     Q_PROPERTY(qreal visibility MEMBER m_Visibility NOTIFY visibilityChanged)
@@ -374,6 +374,7 @@ signals:
     void sunsetTimeChanged();
 
 private:
+    // clang-format off
     QDate m_Date{};  ///< the date this data applies to
     QString m_WeatherStateName{};  ///< name of the current weather state (e.g. clear)
     QString m_WeatherStateAbbreviation{};  ///< abbreviation of the weather state (for icons)
@@ -389,6 +390,7 @@ private:
     int m_Confidence{};          ///< confidence of the forecast in percent
     QDateTime m_SunriseTime{};   ///< time of sunrise
     QDateTime m_SunsetTime{};    ///< time of sunset
+    // clang-format on
 };
 
 #endif  // CWEATHERDATA_H

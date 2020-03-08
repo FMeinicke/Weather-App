@@ -54,6 +54,7 @@ CWeatherApi::CWeatherApi(QObject* parent)
                 [this](const auto& update) {
                     setLocationByCoords(update.coordinate());
                 });
+        // clang-format off
         connect(m_GeoPosInfoSource.get(),
                 qOverload<QGeoPositionInfoSource::Error>(
                     &QGeoPositionInfoSource::error),
@@ -76,6 +77,7 @@ CWeatherApi::CWeatherApi(QObject* parent)
                         requestWeatherData();
                     }
                 });
+        // clang-format on
         m_GeoPosInfoSource->requestUpdate(5000);
     }
 
@@ -99,7 +101,8 @@ CWeatherApi::~CWeatherApi()
 
     // save favourite locations
     m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
-    m_Settings->remove(""); // ensure to delete entries that are no longer present
+    // ensure to delete entries that are no longer present
+    m_Settings->remove("");
     foreach (const auto& Key, m_FavouriteLocations.keys())
     {
         m_Settings->setValue(Key, m_FavouriteLocations.value(Key));
@@ -179,6 +182,7 @@ void CWeatherApi::requestWeatherData()
         const auto WeatherDataJsonArray =
             m_ResponseJsonDoc.object().value("consolidated_weather").toArray();
 
+        // clang-format off
         for_each(begin(WeatherDataJsonArray), end(WeatherDataJsonArray),
                  [this, i = 0](const auto& WeatherData) mutable {
                      m_WeatherDataModel->setData(
@@ -228,6 +232,7 @@ void CWeatherApi::requestWeatherData()
                          CWeatherDataModel::SunsetTimeRole);
                      ++i;
                  });
+        // clang-format on
         emit weatherDataModelChanged();
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
