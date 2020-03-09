@@ -14,17 +14,6 @@ import QtQml.StateMachine 1.0 as DSM
 ApplicationWindow {
   id: window
 
-  /**
-   * @brief Show the undo pane at he bottom of the screen displaying the given
-   * message @a text.
-   *
-   * @param text The message to display when showing the pane
-   */
-  function show(text) {
-    paneUndoFavLocation.text = text
-    stateMachine.running = true
-  }
-
   visible: true
   width: ScreenInfo.width
   height: ScreenInfo.height
@@ -291,6 +280,17 @@ ApplicationWindow {
     id: paneUndoFavLocation
 
     property string text
+
+    /**
+    * @brief Show the undo pane at he bottom of the screen displaying the given
+    * message @a text.
+    *
+    * @param text The message to display when showing the pane
+    */
+    function show(text) {
+      paneUndoFavLocation.text = text
+      stateMachine.running = true
+    }
 
     opacity: stateMachine.running
 
