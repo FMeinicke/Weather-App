@@ -10,11 +10,13 @@
 //============================================================================
 //                                   INCLUDES
 //============================================================================
-#include "WeatherData.h"
+#include "WeatherDataModel.h"
 
 #include <QByteArray>
 #include <QJsonDocument>
+#include <QMap>
 #include <QObject>
+#include <QQmlListProperty>
 #include <QString>
 
 #include <memory>
@@ -36,8 +38,10 @@ class CWeatherApi : public QObject
 
     Q_PROPERTY(
         QString locationName MEMBER m_LocationName NOTIFY locationNameChanged)
-    Q_PROPERTY(
-        CWeatherData* weatherData READ weatherData NOTIFY weatherDataChanged)
+    Q_PROPERTY(CWeatherDataModel* weatherDataModel READ weatherDataModel NOTIFY
+                   weatherDataModelChanged)
+    Q_PROPERTY(QStringList favouriteLocations READ favouriteLocations NOTIFY
+                   favouriteLocationsChanged)
 public:
     /**
      * @brief Construct a new CWeatherApi object
@@ -59,12 +63,19 @@ public:
     QString locationName() const;
 
     /**
-     * @brief Get the weather data object corresponding to the current location
+     * @brief Get the weather data model corresponding to the current location
      *
-     * @return CWeatherData* A pointer to the weather data for the current
-     * location
+     * @return CWeatherDataModel* A pointer to the weather data model for the
+     * current location
      */
-    CWeatherData* weatherData() const;
+    CWeatherDataModel* weatherDataModel() const;
+
+    /**
+     * @brief Get all favourite locations
+     *
+     * @return QStringList A list of the favourite location names
+     */
+    QStringList favouriteLocations();
 
 signals:
     /**
@@ -91,9 +102,15 @@ signals:
     void jsonReady();
 
     /**
-     * @brief This signal notifies about changes in the @a m_WeatherData member
+     * @brief This signal notifies about changes in the @a m_WeatherDataModel member
      */
-    void weatherDataChanged();
+    void weatherDataModelChanged();
+
+    /**
+     * @brief This signal notifies about changes in the @a m_FavouriteLocations
+     * member
+     */
+    void favouriteLocationsChanged();
 
 public slots:
     /**
@@ -115,9 +132,29 @@ public slots:
     void setLocationByIndex(int index);
 
     /**
+     * @brief Set the location that should be used for all further API calls and
+     * is identified by the name @a name with respect to the list of favourite
+     * locations.
+     *
+     * @param name The name of the location with respect to the list of favourite
+     * locations
+     */
+    void setLocationByName(const QString& name);
+
+    /**
      * @brief Request weather data about the currently selected location
      */
     void requestWeatherData();
+
+    /**
+     * @brief Adds the current location to the list of favourite locations
+     */
+    void addCurrentLocationToFavourites();
+
+    /**
+     * @brief Removes the current location from the list of favourite locations
+     */
+    void removeCurrentLocationFromFavourites();
 
 private slots:
     /**
@@ -148,8 +185,9 @@ private:
     QJsonDocument m_ResponseJsonDoc{};  ///< JSON doc with the API reponse
     int m_LocationWOEID{};  ///< The location's WOEID (Where On Earth ID)
     QString m_LocationName{};
-    std::unique_ptr<CWeatherData> m_WeatherData{};  ///< all the weather data
+    std::unique_ptr<CWeatherDataModel> m_WeatherDataModel{};  ///< all the weather data
     std::unique_ptr<QSettings> m_Settings{};
+    QMap<QString, int> m_FavouriteLocations{};  ///< map location names to WOEID's of fav locations
 };
 
 #endif  // WEATHER_API_H

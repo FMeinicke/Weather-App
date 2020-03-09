@@ -1,8 +1,8 @@
 include(third_party/android_openssl/openssl.pri)
 
-QT += quick network
+QT += quick network svg
 
-CONFIG += c++14
+CONFIG += c++17
 
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
@@ -18,14 +18,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         src/WeatherApi.cpp \
         src/WeatherData.cpp \
+        src/WeatherDataModel.cpp \
         src/main.cpp
 
 HEADERS += \
     src/WeatherApi.h \
-    src/WeatherData.h
+    src/WeatherData.h \
+    src/WeatherDataModel.h
 
-RESOURCES += src/qml/qml.qrc \
-       src/res/icons/icons.qrc
+RESOURCES += res/qml/qml.qrc \
+       res/fonts/fonts.qrc \
+       res/icons/icons.qrc
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
@@ -38,3 +41,16 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+DISTFILES += \
+    android/AndroidManifest.xml \
+    android/build.gradle \
+    android/gradle/wrapper/gradle-wrapper.jar \
+    android/gradle/wrapper/gradle-wrapper.properties \
+    android/gradlew \
+    android/gradlew.bat \
+    android/res/values/libs.xml \
+    android/res/values/strings.xml
+
+ANDROID_PACKAGE_SOURCE_DIR = \
+    $$PWD/android

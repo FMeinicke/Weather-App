@@ -5,7 +5,6 @@
 /// \brief  A page providing a search bar to search for locations
 //============================================================================
 import QtQuick 2.12
-import QtQuick.Window 2.3
 import QtQuick.Controls 2.5
 import QtQuick.Layouts 1.12
 
@@ -15,9 +14,6 @@ Page {
   padding: 5
 
   title: qsTr("Weather Forecast")
-
-  width: ScreenInfo.width
-  height: ScreenInfo.height
 
   ColumnLayout {
     anchors.horizontalCenter: parent.horizontalCenter
@@ -56,18 +52,6 @@ Page {
 
       model: ListModel {
         id: locationResultsModel
-// dummy elements:
-        //ListElement { "location": "San Francisco" }
-        //ListElement { "location": "San Diego" }
-        //ListElement { "location": "San Jose" }
-        //ListElement { "location": "San Antonio" }
-        //ListElement { "location": "Santa Cruz" }
-        //ListElement { "location": "Santiago" }
-        //ListElement { "location": "Santorini" }
-        //ListElement { "location": "Santander" }
-        //ListElement { "location": "Busan" }
-        //ListElement { "location": "Santa Cruz de Tenerife" }
-        //ListElement { "location": "Santa Fe" }
       }
 
       delegate: Button {
@@ -78,9 +62,15 @@ Page {
         onClicked: {
           weatherApi.setLocationByIndex(index)
           weatherApi.requestWeatherData()
-          // replace the HomeForm with the WeatherForecastPageForm
-          stackView.replace(stackView.get(0), "WeatherForecastPageForm.ui.qml",
-                            StackView.PopTransition)
+          if (stackView.get(0).objectName === "HomeForm") {
+            // replace the HomeForm with the WeatherForecastPageForm
+            stackView.replace(stackView.get(0), "WeatherForecastPageForm.qml",
+                              StackView.PopTransition)
+          } else {
+            // WeatherForecastPageForm is already on the stack
+            // just pop off the current page to show it
+            stackView.pop()
+          }
         }
 
         height: 30
