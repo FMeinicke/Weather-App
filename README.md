@@ -1,6 +1,29 @@
 # Mobile Weather
 A simple weather app in C++ and QML demonstrating how to talk to REST APIs with Qt
 
+## Getting Started
+Um die App selbst zu bauen, muss das Projekt rekursiv geklont werden, damit die `android_openssl` Abhängigkeit ebenfalls mit geklont wird:
+```shell
+git clone --recursive https://github.com/FMeinicke/Weather-App.git
+```
+
+Wenn das Projekt als zip-Ordner heruntergeladen wird, muss `android_openssl` manuell auch noch heruntergeladen werden. Dazu muss einfach das zip-Archiv von https://github.com/KDAB/android_openssl.git heruntergeladen werden. Das Archiv muss in den Ordner `Weather-App/third_party/android_openssl/` entpackt werden. Das Projekt sollte am Ende die folgende Struktur besitzen, damit es erfolgreich kompiliert werden kann:
+```
+Weather-App/
+|-- android/
+|-- res
+|-- src/
+|-- third_party/
+|   `-- android_openssl/
+|       |-- openssl.pri
+|       |-- arm/
+|       |-- arm64/
+|       `-- ...
+`-- Weather-App.pro
+```
+
+Dann kann die `Weather-App.pro` Datei einfach in QtCreator geöffnet und kompiliert werden.
+
 ## Aufbau der App
 - Aufteilung von Logik (C++) und GUI (QML)
 ### C++
