@@ -29,6 +29,7 @@ Dann kann die `Weather-App.pro` Datei einfach in QtCreator geöffnet und kompili
 ### C++
 - zentrale `CWeatherApi` Klasse
   - macht alle Anfragen an die REST API von MetaWeather.com
+  - verwendet dafür `QNetworkAccessManager`, `QNetworkRequest` und `QNetworkReply`
 - empfangene Wetter-Daten werden in Objekt der `CWeatherData` Klasse gespeichert
 - für QML werden diese Daten über die `CWeatherDataModel` Klasse als Model bereitgestellt
 - Verwendung von `QSettings` zum persistenten Speichern von Daten über die Laufzeit der App hinaus
