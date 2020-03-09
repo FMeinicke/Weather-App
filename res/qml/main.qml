@@ -235,7 +235,8 @@ ApplicationWindow {
     Behavior on opacity {
       NumberAnimation {
         easing.type: Easing.InOutQuad
-        duration: 400}
+        duration: 400
+      }
     }
 
     Material.theme: Material.Dark
