@@ -28,8 +28,11 @@ HEADERS += \
 
 RESOURCES += res/qml/qml.qrc \
        res/fonts/fonts.qrc \
-       res/icons/icons.qrc
+       res/icons/icons.qrc \
+       res/translations/translations.qrc
 
+TRANSLATIONS += \
+    res/translations/*.ts
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =

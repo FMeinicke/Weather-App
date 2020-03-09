@@ -11,11 +11,13 @@
 //============================================================================
 #include "WeatherApi.h"
 
+#include <QDebug>
 #include <QFont>
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QTranslator>
 
 int main(int argc, char* argv[])
 {
@@ -29,6 +31,19 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
 
     QQmlApplicationEngine engine;
+
+    // translation
+    QTranslator Translator;
+    if (Translator.load(QLocale(), QCoreApplication::applicationName(),
+                        QStringLiteral("_"), QStringLiteral(":/translations")))
+    {
+        app.installTranslator(&Translator);
+    }
+    else
+    {
+        qWarning()
+            << "Could not load translation for" << QLocale::system().name();
+    }
 
     // set app font - work around for QTBUG-69494
     const auto id =
