@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     // translation
     QTranslator Translator;
     if (Translator.load(QLocale(), QCoreApplication::applicationName(),
-                        QStringLiteral("_"), QStringLiteral(":/translations")))
+                        QStringLiteral("_"), QStringLiteral(":/i18n")))
     {
         app.installTranslator(&Translator);
     }
