@@ -78,7 +78,7 @@ CWeatherApi::CWeatherApi(QObject* parent)
                     }
                 });
         // clang-format on
-        m_GeoPosInfoSource->requestUpdate(5000);
+        m_GeoPosInfoSource->requestUpdate(2000);
     }
 
     // load favourite locations
