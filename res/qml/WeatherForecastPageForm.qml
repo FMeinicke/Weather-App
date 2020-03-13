@@ -15,7 +15,7 @@ Page {
 
   property bool apiRequestRunning: true
 
-  objectName: "WeatherForcastPage"
+  objectName: "WeatherForecastPage"
 
   title: weatherApi.locationName
 

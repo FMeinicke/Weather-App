@@ -95,6 +95,9 @@ ApplicationWindow {
       state: weatherApi.favouriteLocations.includes(stackView.currentItem.title) ?
                "remove" : "add"
 
+      enabled: stackView.currentItem.objectName === "WeatherForecastPage" &&
+               stackView.currentItem.state !== "noLocation"
+
       states: [
         State {
           name: "add"
@@ -147,8 +150,6 @@ ApplicationWindow {
           }
         }
       ]
-
-      enabled: stackView.currentItem.objectName === "WeatherForcastPage"
     }
 
     MenuItem {
