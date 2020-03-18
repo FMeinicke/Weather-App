@@ -9,6 +9,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Window 2.3
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material.impl 2.12
 import QtQml.StateMachine 1.0 as DSM
 
 ApplicationWindow {
@@ -109,6 +110,9 @@ ApplicationWindow {
               paneUndoFavLocation.show(qsTr("Added %1 to Favourites")
                                        .arg(stackView.currentItem.title))
               weatherApi.addCurrentLocationToFavourites()
+              // don't show the button as highlighted after it has been clicked
+              // this makes no sense
+              highlighted = false
             }
           }
           PropertyChanges {
@@ -134,6 +138,9 @@ ApplicationWindow {
               paneUndoFavLocation.show(qsTr("Removed %1 from Favourites")
                                        .arg(stackView.currentItem.title))
               weatherApi.removeCurrentLocationFromFavourites()
+              // don't show the button as highlighted after it has been clicked
+              // this makes no sense
+              highlighted = false
             }
           }
           PropertyChanges {
@@ -164,6 +171,9 @@ ApplicationWindow {
         if (stackView.currentItem.title !== qsTr("About")) {
           stackView.push("AboutPage.qml")
         }
+        // don't show the button as highlighted after it has been clicked
+        // this makes no sense
+        highlighted = false
       }
     }
 
