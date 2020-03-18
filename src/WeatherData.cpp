@@ -248,6 +248,18 @@ QDateTime CWeatherData::sunriseTime() const
 void CWeatherData::setSunriseTime(const QDateTime& time)
 {
     m_SunriseTime = time;
+    static auto OffsetFromUTC = QDateTime::currentDateTime().offsetFromUtc();
+    // Convert the time from UTC to the same time in the local timezone
+    // by changing the UTC offset to the current timezone's offset.
+    // This means, if the time 07:00 UTC-7 is given and we are currently in the
+    // UTC+1 timezone, the time would be displayed as 15:00 UTC+1. To prevent
+    // that we change the UTC offset from UTC-7 to UTC+1 (i.e. the given time
+    // would now be 07:00 UTC+1; the actual value of the time is not affected).
+    // Now the time will be displayed correctly as 07:00.
+    // Without this the sunrise time for e.g. Los Angeles would be displayed as
+    // 15:00 (if we are in the UTC+1 timezone) when it is actually 07:00 in the
+    // local timezone (i.e. UTC-7).
+    m_SunriseTime.setOffsetFromUtc(OffsetFromUTC);
     emit sunriseTimeChanged();
 }
 
@@ -261,5 +273,8 @@ QDateTime CWeatherData::sunsetTime() const
 void CWeatherData::setSunsetTime(const QDateTime& time)
 {
     m_SunsetTime = time;
+    static auto OffsetFromUTC = QDateTime::currentDateTime().offsetFromUtc();
+    // see above for an explanation
+    m_SunsetTime.setOffsetFromUtc(OffsetFromUTC);
     emit sunsetTimeChanged();
 }

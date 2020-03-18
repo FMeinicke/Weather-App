@@ -15,6 +15,8 @@
 //=============================================================================
 CWeatherDataModel::CWeatherDataModel(QObject* parent) : QAbstractListModel(parent)
 {
+    setupWeatherStateTranslations();
+
     for (size_t i = 0; i < m_NumDays; i++)
     {
         m_WeatherDataList.append(CWeatherData{this});
@@ -72,7 +74,8 @@ bool CWeatherDataModel::setData(const QModelIndex& index, const QVariant& value,
         m_WeatherDataList[index.row()].setDate(value.toDate());
         break;
     case WeatherStateNameRole:
-        m_WeatherDataList[index.row()].setWeatherStateName(value.toString());
+        m_WeatherDataList[index.row()].setWeatherStateName(
+            weatherTr(value.toString()));
         break;
     case WeatherStateAbbrRole:
         m_WeatherDataList[index.row()].setWeatherStateAbbreviation(
@@ -154,8 +157,39 @@ QHash<int, QByteArray> CWeatherDataModel::roleNames() const
 }
 
 //=============================================================================
-bool CWeatherDataModel::setData(int index, const QVariant& value,
-                                int role)
+bool CWeatherDataModel::setData(int index, const QVariant& value, int role)
 {
     return setData(createIndex(index, 0), value, role);
+}
+
+//=============================================================================
+void CWeatherDataModel::setupWeatherStateTranslations()
+{
+    if (m_WeatherStateTranslations.size() != 0)
+    {
+        return;
+    }
+    m_WeatherStateTranslations["Snow"] = tr("Snow");
+    m_WeatherStateTranslations["Sleet"] = tr("Sleet");
+    m_WeatherStateTranslations["Hail"] = tr("Hail");
+    m_WeatherStateTranslations["Thunderstorm"] = tr("Thunderstorm");
+    m_WeatherStateTranslations["Heavy Rain"] = tr("Heavy Rain");
+    m_WeatherStateTranslations["Light Rain"] = tr("Light Rain");
+    m_WeatherStateTranslations["Showers"] = tr("Showers");
+    m_WeatherStateTranslations["Heavy Cloud"] = tr("Heavy Cloud");
+    m_WeatherStateTranslations["Light Cloud"] = tr("Light Cloud");
+    m_WeatherStateTranslations["Clear"] = tr("Clear");
+}
+
+//=============================================================================
+QString CWeatherDataModel::weatherTr(const QString& s) const
+{
+    if (m_WeatherStateTranslations.contains(s))
+    {
+        return m_WeatherStateTranslations[s];
+    }
+    else
+    {
+        return s;
+    }
 }

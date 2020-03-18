@@ -9,6 +9,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Window 2.3
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material.impl 2.12
 import QtQml.StateMachine 1.0 as DSM
 
 ApplicationWindow {
@@ -95,6 +96,9 @@ ApplicationWindow {
       state: weatherApi.favouriteLocations.includes(stackView.currentItem.title) ?
                "remove" : "add"
 
+      enabled: stackView.currentItem.objectName === "WeatherForecastPage" &&
+               stackView.currentItem.state !== "noLocation"
+
       states: [
         State {
           name: "add"
@@ -106,6 +110,9 @@ ApplicationWindow {
               paneUndoFavLocation.show(qsTr("Added %1 to Favourites")
                                        .arg(stackView.currentItem.title))
               weatherApi.addCurrentLocationToFavourites()
+              // don't show the button as highlighted after it has been clicked
+              // this makes no sense
+              highlighted = false
             }
           }
           PropertyChanges {
@@ -131,6 +138,9 @@ ApplicationWindow {
               paneUndoFavLocation.show(qsTr("Removed %1 from Favourites")
                                        .arg(stackView.currentItem.title))
               weatherApi.removeCurrentLocationFromFavourites()
+              // don't show the button as highlighted after it has been clicked
+              // this makes no sense
+              highlighted = false
             }
           }
           PropertyChanges {
@@ -147,14 +157,12 @@ ApplicationWindow {
           }
         }
       ]
-
-      enabled: stackView.currentItem.objectName === "WeatherForcastPage"
     }
 
     MenuItem {
       id: menuAbout
 
-    property Item currentAboutPage
+      property Item currentAboutPage
 
       text: qsTr("About")
 
@@ -163,6 +171,9 @@ ApplicationWindow {
         if (stackView.currentItem.title !== qsTr("About")) {
           stackView.push("AboutPage.qml")
         }
+        // don't show the button as highlighted after it has been clicked
+        // this makes no sense
+        highlighted = false
       }
     }
 
@@ -223,12 +234,74 @@ ApplicationWindow {
 
     anchors.fill: parent
     initialItem: "WeatherForecastPageForm.qml"
+
+
+    // Implements back key navigation
+    focus: true
+    property bool wantsQuit: false
+
+    onFocusChanged: {
+      if (!focus) {
+        forceActiveFocus()
+      }
+    }
+
+    Timer {
+      id: timer
+      interval: 2100
+      running: stackView.wantsQuit
+      repeat: false
+      onTriggered: {
+        // user didn't press back twice within the small intervall - doesn't want to quit
+        stackView.wantsQuit = false
+      }
+    }
+
+    ToolTip {
+      id: quitMsg
+
+      text: qsTr("Press again to quit...")
+      y: parent.height - 50
+      visible: stackView.wantsQuit
+      timeout: timer.interval
+      delay: 500
+
+      onClosed: {
+        if (stackView.wantsQuit) {
+          // user pressed back button twice within a small intervall - quit app
+          window.close()
+        }
+      }
+    }
+
+    Keys.onBackPressed: {
+      if (depth > 1) {
+        // if not on the main page, don't close the app on back key press
+        // just go back one page
+        wantsQuit = false
+        pop()
+      } else if (!wantsQuit) {
+        // close on next back button press
+        wantsQuit = true
+      }
+    }
   }
 
   Pane {
     id: paneUndoFavLocation
 
     property string text
+
+    /**
+    * @brief Show the undo pane at he bottom of the screen displaying the given
+    * message @a text.
+    *
+    * @param text The message to display when showing the pane
+    */
+    function show(text) {
+      paneUndoFavLocation.text = text
+      stateMachine.running = true
+    }
 
     opacity: stateMachine.running
 
@@ -265,41 +338,22 @@ ApplicationWindow {
     }
 
     DSM.StateMachine {
-        id: stateMachine
+      id: stateMachine
 
-        initialState: hidden
-        running: false
+      initialState: hidden
+      running: false
 
-        DSM.State {
-            id: hidden
-            DSM.TimeoutTransition {
-                targetState: shown
-                timeout: 2500
-            }
+      DSM.State {
+        id: hidden
+        DSM.TimeoutTransition {
+          targetState: shown
+          timeout: 2500
         }
+      }
 
-        DSM.FinalState {
-            id: shown
-        }
+      DSM.FinalState {
+        id: shown
+      }
     }
-
-    /**
-     * @brief Show the undo pane at he bottom of the screen displaying the given
-     * message @a text.
-     *
-     * @param text The message to display when showing the pane
-     */
-    function show(text) {
-      paneUndoFavLocation.text = text
-      stateMachine.running = true
-    }
-  }
-
-  /**
-   * @brief Replaces the WeatherForecastPageForm with the HomeForm in case the
-   * app has been started for the first time to show the landing page.
-   */
-  function setFirstStartPage() {
-    stackView.replace("HomeForm.ui.qml")
   }
 }

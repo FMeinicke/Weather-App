@@ -15,13 +15,21 @@ Page {
 
   property bool apiRequestRunning: true
 
-  objectName: "WeatherForcastPage"
+  objectName: "WeatherForecastPage"
 
   title: weatherApi.locationName
 
+  state: weatherApi.locationName ? "" : "noLocation"
+
   Connections {
     target: weatherApi
-    onWeatherDataModelChanged: root.apiRequestRunning = false
+    onWeatherDataModelChanged: {
+      root.apiRequestRunning = false
+      // always start with the minimal view for each card
+      for (let i = 0; i < weatherDataView.count; ++i) {
+        weatherDataView.itemAtIndex(i).state = "minimal"
+      }
+    }
   }
 
   BusyIndicator {
@@ -29,9 +37,11 @@ Page {
 
     running: root.apiRequestRunning
 
-    height: 40
+    height: 38
     width: height
     z: 1
+
+    padding: 9
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
@@ -47,7 +57,7 @@ Page {
 
     DropShadow {
       anchors.fill: rectBackground
-      radius: 5.0
+      radius: 4.0
       color: "#60000000"
       source: rectBackground
       visible: rectBackground.visible
@@ -89,4 +99,59 @@ Page {
       sunset: model.sunsetTime
     }
   }
+
+  GridLayout {
+    id: helpMessage
+
+    visible: false
+    width: parent.width
+    anchors.horizontalCenter: parent.horizontalCenter
+
+    Image {
+      Layout.row: 0
+      Layout.alignment: Qt.AlignRight
+      Layout.rightMargin: 55
+
+      source: "qrc:/icons/double_arrow_black"
+      sourceSize.height: 50
+      sourceSize.width: height
+      fillMode: Image.PreserveAspectFit
+      rotation: -60
+    }
+
+    Label {
+      Layout.row: 1
+      Layout.fillWidth: true
+
+      text: qsTr("Tap the search icon above to search a location.")
+      font.pointSize: Qt.application.font.pointSize * 1.1
+      horizontalAlignment: Text.AlignHCenter
+      wrapMode: Text.WordWrap
+    }
+  }
+
+  states: [
+    State {
+      name: "noLocation"
+      PropertyChanges {
+        target: root
+        title: qsTr("Weather Forecast")
+        apiRequestRunning: false
+      }
+      PropertyChanges {
+        target: helpMessage
+        visible: true
+      }
+      PropertyChanges {
+        target: weatherDataView
+        visible: false
+      }
+    }
+  ]
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/

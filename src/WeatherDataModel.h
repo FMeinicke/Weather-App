@@ -85,9 +85,28 @@ public:
     bool setData(int index, const QVariant& value, int role = Qt::EditRole);
 
 private:
+    /**
+     * @brief Fills @ m_WeatherStateTranslations map with all possible weather
+     * state names so that they can be properly translated later on.
+     */
+    void setupWeatherStateTranslations();
+
+    /**
+     * @brief Similar to Qt's @a tr function. Translates the weather state names
+     * from the API by looking thm up in the @a m_WeatherStateTranslations member
+     *
+     * @param s The weather state name to translate
+     * @return QString The translated version of the weather state name
+     */
+    QString weatherTr(const QString& s) const;
+
+private:
+    // clang-format off
     static constexpr size_t m_NumDays{6}; ///< for how many days weather data is available
 
     QList<CWeatherData> m_WeatherDataList{};
+    QMap<QString, QString> m_WeatherStateTranslations{}; ///< holds translations from english to the currently active language
+    // clang-format on
 };
 
 #endif  // CWEATHERDATAMODEL_H

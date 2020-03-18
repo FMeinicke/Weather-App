@@ -11,12 +11,15 @@
 #include "WeatherApi.h"
 
 #include <QDebug>
+#include <QGeoPositionInfo>
+#include <QGeoPositionInfoSource>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSettings>
+#include <QUrlQuery>
 
 using namespace std;
 
@@ -42,15 +45,40 @@ CWeatherApi::CWeatherApi(QObject* parent)
     m_NetRequest->setAttribute(QNetworkRequest::RedirectPolicyAttribute,
                                QNetworkRequest::NoLessSafeRedirectPolicy);
 
-    // load last location's weather data if present
-    const auto LastLocationName =
-        m_Settings->value(LAST_LOCATION_NAME_SETTINGS_KEY).toString();
-    if (!LastLocationName.isEmpty())
+    m_GeoPosInfoSource.reset(QGeoPositionInfoSource::createDefaultSource(this));
+
+    if (m_GeoPosInfoSource)
     {
-        setLocationName(LastLocationName);
-        m_LocationWOEID =
-            m_Settings->value(LAST_LOCATION_WOEID_SETTINGS_KEY).toInt();
-        requestWeatherData();
+        connect(m_GeoPosInfoSource.get(),
+                &QGeoPositionInfoSource::positionUpdated, this,
+                [this](const auto& update) {
+                    setLocationByCoords(update.coordinate());
+                });
+        // clang-format off
+        connect(m_GeoPosInfoSource.get(),
+                qOverload<QGeoPositionInfoSource::Error>(
+                    &QGeoPositionInfoSource::error),
+                this, [this](const auto& /* error */) {
+                    qWarning() << "Position source error. Trying to load last "
+                                  "location from settings";
+                    // clean up insufficient QGeoPositionInfoSource instance
+                    m_GeoPosInfoSource->stopUpdates();
+                    m_GeoPosInfoSource->deleteLater();
+                    m_GeoPosInfoSource.reset();
+
+                    // load last location's weather data if present
+                    const auto LastLocationName =
+                        m_Settings->value(LAST_LOCATION_NAME_SETTINGS_KEY).toString();
+                    if (!LastLocationName.isEmpty())
+                    {
+                        setLocationName(LastLocationName);
+                        m_LocationWOEID =
+                            m_Settings->value(LAST_LOCATION_WOEID_SETTINGS_KEY).toInt();
+                        requestWeatherData();
+                    }
+                });
+        // clang-format on
+        m_GeoPosInfoSource->requestUpdate(2000);
     }
 
     // load favourite locations
@@ -73,7 +101,8 @@ CWeatherApi::~CWeatherApi()
 
     // save favourite locations
     m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
-    m_Settings->remove(""); // ensure to delete entries that are no longer present
+    // ensure to delete entries that are no longer present
+    m_Settings->remove("");
     foreach (const auto& Key, m_FavouriteLocations.keys())
     {
         m_Settings->setValue(Key, m_FavouriteLocations.value(Key));
@@ -102,7 +131,11 @@ QStringList CWeatherApi::favouriteLocations()
 //=============================================================================
 void CWeatherApi::requestLocation(const QString& desiredLocation)
 {
-    m_NetRequest->setUrl({BASE_URL + "search/?query=" + desiredLocation});
+    auto Url = QUrl{BASE_URL + "search/"};
+    auto Query = QUrlQuery{};
+    Query.addQueryItem("query", desiredLocation);
+    Url.setQuery(Query);
+    m_NetRequest->setUrl(Url);
     m_NetReply.reset(m_NetAccessManager->get(*m_NetRequest));
 
     connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
@@ -149,6 +182,7 @@ void CWeatherApi::requestWeatherData()
         const auto WeatherDataJsonArray =
             m_ResponseJsonDoc.object().value("consolidated_weather").toArray();
 
+        // clang-format off
         for_each(begin(WeatherDataJsonArray), end(WeatherDataJsonArray),
                  [this, i = 0](const auto& WeatherData) mutable {
                      m_WeatherDataModel->setData(
@@ -198,6 +232,7 @@ void CWeatherApi::requestWeatherData()
                          CWeatherDataModel::SunsetTimeRole);
                      ++i;
                  });
+        // clang-format on
         emit weatherDataModelChanged();
     });
     connect(m_NetReply.get(), &QNetworkReply::finished, this,
@@ -247,4 +282,29 @@ void CWeatherApi::setLocationName(const QString& locationName)
 {
     m_LocationName = locationName;
     emit locationNameChanged();
+}
+
+//=============================================================================
+void CWeatherApi::setLocationByCoords(const QGeoCoordinate& coordinates)
+{
+    auto Url = QUrl{BASE_URL + "search/"};
+    auto Query = QUrlQuery{};
+    const auto Lat = QString::number(coordinates.latitude());
+    const auto Long = QString::number(coordinates.longitude());
+    Query.addQueryItem("lattlong", Lat + "," + Long);
+    Url.setQuery(Query);
+    m_NetRequest->setUrl(Url);
+    m_NetReply.reset(m_NetAccessManager->get(*m_NetRequest));
+
+    connect(m_NetReply.get(), &QNetworkReply::readyRead, this,
+            &CWeatherApi::onReadyRead);
+    connect(this, &CWeatherApi::jsonReady, m_GeoPosInfoSource.get(),
+            &QGeoPositionInfoSource::stopUpdates);
+    connect(m_NetReply.get(), &QNetworkReply::finished, this, [this]() {
+        // first clean up before starting a new API request
+        cleanUp();
+        // the first location is the nearest to the actual current location
+        setLocationByIndex(0);
+        requestWeatherData();
+    });
 }
