@@ -31,9 +31,11 @@ Page {
 
     running: root.apiRequestRunning
 
-    height: 40
+    height: 38
     width: height
     z: 1
+
+    padding: 9
 
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
@@ -49,7 +51,7 @@ Page {
 
     DropShadow {
       anchors.fill: rectBackground
-      radius: 5.0
+      radius: 4.0
       color: "#60000000"
       source: rectBackground
       visible: rectBackground.visible
@@ -141,3 +143,9 @@ Page {
     }
   ]
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+##^##*/
