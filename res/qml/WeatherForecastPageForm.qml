@@ -23,7 +23,13 @@ Page {
 
   Connections {
     target: weatherApi
-    onWeatherDataModelChanged: root.apiRequestRunning = false
+    onWeatherDataModelChanged: {
+      root.apiRequestRunning = false
+      // always start with the minimal view for each card
+      for (let i = 0; i < weatherDataView.count; ++i) {
+        weatherDataView.itemAtIndex(i).state = "minimal"
+      }
+    }
   }
 
   BusyIndicator {
