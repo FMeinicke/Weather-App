@@ -3,6 +3,7 @@ A simple weather app in C++ and QML demonstrating how to talk to REST APIs with 
 
 Test 1
 Test 2
+Test 3
 
 ## Aufbau der App
 - Aufteilung von Logik (C++) und GUI (QML)
