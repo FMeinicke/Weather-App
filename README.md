@@ -1,6 +1,8 @@
 # Mobile Weather
 A simple weather app in C++ and QML demonstrating how to talk to REST APIs with Qt
 
+Test 1
+
 ## Aufbau der App
 - Aufteilung von Logik (C++) und GUI (QML)
 ### C++
