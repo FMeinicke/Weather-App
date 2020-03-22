@@ -173,6 +173,18 @@ private slots:
      */
     void cleanUp();
 
+    /**
+     * @brief Permanently saves the current location as last location so that it
+     * can be restored when the app is closed and re-opened.
+     */
+    void saveLastLocation();
+
+    /**
+     * @brief Permanently saves the current list of favourite locations so that
+     * they are available when the app is opened the next time.
+     */
+    void saveFavouriteLocations();
+
 private:
     /**
      * @brief Set the current location's name

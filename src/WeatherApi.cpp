@@ -90,25 +90,16 @@ CWeatherApi::CWeatherApi(QObject* parent)
         });
     m_Settings->endGroup();
     emit favouriteLocationsChanged();
+
+    connect(this, &CWeatherApi::locationNameChanged,
+            &CWeatherApi::saveLastLocation);
+    connect(this, &CWeatherApi::favouriteLocationsChanged,
+            &CWeatherApi::saveFavouriteLocations);
 }
 
 //=============================================================================
 CWeatherApi::~CWeatherApi()
-{
-    // save last location's weather data
-    m_Settings->setValue(LAST_LOCATION_NAME_SETTINGS_KEY, m_LocationName);
-    m_Settings->setValue(LAST_LOCATION_WOEID_SETTINGS_KEY, m_LocationWOEID);
-
-    // save favourite locations
-    m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
-    // ensure to delete entries that are no longer present
-    m_Settings->remove("");
-    foreach (const auto& Key, m_FavouriteLocations.keys())
-    {
-        m_Settings->setValue(Key, m_FavouriteLocations.value(Key));
-    }
-    m_Settings->endGroup();
-}
+{}
 
 //=============================================================================
 QString CWeatherApi::locationName() const
@@ -275,6 +266,28 @@ void CWeatherApi::cleanUp()
     m_NetReply->deleteLater();
     m_NetReply = nullptr;
     m_DataBuffer.clear();
+}
+
+//=============================================================================
+void CWeatherApi::saveLastLocation()
+{
+    // save last location's weather data
+    m_Settings->setValue(LAST_LOCATION_NAME_SETTINGS_KEY, m_LocationName);
+    m_Settings->setValue(LAST_LOCATION_WOEID_SETTINGS_KEY, m_LocationWOEID);
+}
+
+//=============================================================================
+void CWeatherApi::saveFavouriteLocations()
+{
+    // save favourite locations
+    m_Settings->beginGroup(FAVOURITE_LOCATIONS_SETTINGS_GROUP);
+    // ensure to delete entries that are no longer present
+    m_Settings->remove("");
+    foreach (const auto& Key, m_FavouriteLocations.keys())
+    {
+        m_Settings->setValue(Key, m_FavouriteLocations.value(Key));
+    }
+    m_Settings->endGroup();
 }
 
 //=============================================================================
