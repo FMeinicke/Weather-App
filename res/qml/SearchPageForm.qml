@@ -16,6 +16,8 @@ Page {
   title: qsTr("Weather Forecast")
 
   ColumnLayout {
+    width: parent.width
+
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: parent.top
     anchors.topMargin: 10
@@ -27,14 +29,31 @@ Page {
       placeholderText: "Search"
 
       Layout.preferredHeight: 35
+      Layout.alignment: Qt.AlignHCenter
 
       onTextEdited: weatherApi.requestLocation(text)
+    }
+
+    Label {
+      id: lblOops
+
+      Layout.topMargin: 4 * root.padding
+      Layout.fillWidth: true
+
+      visible: false
+
+      text: qsTr("Oops! Couldn't find the location you're looking for. " +
+                 "Try a bigger city near you to get an approximate forecast")
+      font.pointSize: Qt.application.font.pointSize * 1.1
+      horizontalAlignment: Text.AlignHCenter
+      wrapMode: Text.WordWrap
     }
 
     ListView {
       id: locationResults
 
-      Layout.topMargin: 10
+      Layout.alignment: Qt.AlignHCenter
+      Layout.topMargin: 2 * root.padding
       height: contentHeight
       width: searchBox.width - 2 * root.padding
 
@@ -42,7 +61,7 @@ Page {
         z: -1
         anchors.fill: parent
         anchors.topMargin: -root.padding
-        anchors.leftMargin: 2 * root.padding
+        anchors.leftMargin: root.padding
 
         border.color: "black"
         radius: 3
@@ -99,9 +118,10 @@ Page {
   Connections {
     target: weatherApi
     onLocationsReady: {
+      lblOops.visible = (locations.length === 0)
+
       locationResultsModel.clear()
       for (let location of locations) {
-        console.log(location)
         locationResultsModel.append({"location": location})
       }
     }
