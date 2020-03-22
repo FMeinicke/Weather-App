@@ -99,6 +99,11 @@
         <source>Weather Forecast</source>
         <translation>Wettervorhersage</translation>
     </message>
+    <message>
+        <location filename="../res/qml/SearchPageForm.qml" line="50"/>
+        <source>Oops! Couldn&apos;t find the location you&apos;re looking for. Try a bigger city near you to get an approximate forecast</source>
+        <translation>Hoppla! Der gesuchte Ort konnte nicht gefunden werden. Versuch&apos;s mit einer größeren Stadt in deiner Nähe, um eine ungefähre Vorhersage zu bekommen.</translation>
+    </message>
 </context>
 <context>
     <name>WeatherDataDelegate</name>
@@ -162,22 +167,22 @@
 <context>
     <name>WeatherForecastPageForm</name>
     <message>
-        <location filename="../res/qml/WeatherForecastPageForm.qml" line="71"/>
+        <location filename="../res/qml/WeatherForecastPageForm.qml" line="79"/>
         <source>Today</source>
         <translation>Heute</translation>
     </message>
     <message>
-        <location filename="../res/qml/WeatherForecastPageForm.qml" line="73"/>
+        <location filename="../res/qml/WeatherForecastPageForm.qml" line="81"/>
         <source>Tomorrow</source>
         <translation>Morgen</translation>
     </message>
     <message>
-        <location filename="../res/qml/WeatherForecastPageForm.qml" line="118"/>
+        <location filename="../res/qml/WeatherForecastPageForm.qml" line="126"/>
         <source>Tap the search icon above to search a location.</source>
         <translation>Das Such-Icon oben antippen, um einen Ort zu suchen.</translation>
     </message>
     <message>
-        <location filename="../res/qml/WeatherForecastPageForm.qml" line="130"/>
+        <location filename="../res/qml/WeatherForecastPageForm.qml" line="138"/>
         <source>Weather Forecast</source>
         <translation>Wettervorhersage</translation>
     </message>
@@ -185,43 +190,43 @@
 <context>
     <name>main</name>
     <message>
-        <location filename="../res/qml/main.qml" line="106"/>
+        <location filename="../res/qml/main.qml" line="107"/>
         <source>Add Location to Favourites</source>
         <translation>Ort zu Favoriten hinzufügen</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="109"/>
+        <location filename="../res/qml/main.qml" line="110"/>
         <source>Added %1 to Favourites</source>
         <translation>%1 zu Favoriten hinzugefügt</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="131"/>
+        <location filename="../res/qml/main.qml" line="135"/>
         <source>Remove Location from Favourites</source>
         <translation>Ort von Favoriten entfernen</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="134"/>
+        <location filename="../res/qml/main.qml" line="138"/>
         <source>Removed %1 from Favourites</source>
         <translation>%1 von Favoriten entfernt</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="160"/>
-        <location filename="../res/qml/main.qml" line="164"/>
+        <location filename="../res/qml/main.qml" line="167"/>
+        <location filename="../res/qml/main.qml" line="171"/>
         <source>About</source>
         <translation>Über die App</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="194"/>
+        <location filename="../res/qml/main.qml" line="204"/>
         <source>Favourite Locations</source>
         <translation>Deine Orte</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="253"/>
+        <location filename="../res/qml/main.qml" line="263"/>
         <source>Press again to quit...</source>
         <translation>Noch einmal tippen zum Beenden...</translation>
     </message>
     <message>
-        <location filename="../res/qml/main.qml" line="321"/>
+        <location filename="../res/qml/main.qml" line="332"/>
         <source>Undo</source>
         <translation>Rückgängig</translation>
     </message>
