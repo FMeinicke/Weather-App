@@ -32,6 +32,11 @@ Page {
       Layout.alignment: Qt.AlignHCenter
 
       onTextEdited: weatherApi.requestLocation(text)
+
+      onCleared: {
+        locationResultsModel.clear()
+        lblOops.visible = false
+      }
     }
 
     Label {

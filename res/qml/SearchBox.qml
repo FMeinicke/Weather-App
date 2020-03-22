@@ -12,6 +12,7 @@ FocusScope {
 
   property string placeholderText: "Type something..."
   signal textEdited(string text)
+  signal cleared()
 
   width: 250
   height: 28
@@ -73,7 +74,13 @@ FocusScope {
 
     MouseArea {
       anchors.fill: parent
-      onClicked: input.clear()
+      onClicked: {
+        input.clear()
+        root.cleared()
+        // show the keyboard again since it's likely the user wants to enter new text
+        root.focus = true
+        Qt.inputMethod.show()
+      }
     }
   }
 
