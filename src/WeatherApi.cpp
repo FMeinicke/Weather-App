@@ -164,6 +164,8 @@ void CWeatherApi::setLocationByName(const QString& name)
 //=============================================================================
 void CWeatherApi::requestWeatherData()
 {
+    emit weatherDataRequestStarted();
+    
     m_NetRequest->setUrl({BASE_URL + QString::number(m_LocationWOEID)});
     m_NetReply.reset(m_NetAccessManager->get(*m_NetRequest));
 

@@ -23,6 +23,11 @@ Page {
 
   Connections {
     target: weatherApi
+
+    onWeatherDataRequestStarted: {
+      root.apiRequestRunning = true
+    }
+
     onWeatherDataModelChanged: {
       root.apiRequestRunning = false
       // always start with the minimal view for each card

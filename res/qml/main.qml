@@ -221,7 +221,6 @@ ApplicationWindow {
           onClicked: {
             weatherApi.setLocationByName(modelData)
             weatherApi.requestWeatherData()
-            stackView.replace("WeatherForecastPageForm.qml")
             drawer.close()
           }
         }

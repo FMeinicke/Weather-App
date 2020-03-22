@@ -104,6 +104,13 @@ signals:
     void jsonReady();
 
     /**
+     * @brief Ths signal is emitted every time the @a requestWeatherData slot is
+     * called. This can be used to provide a visual feedback to the user that the
+     * probably long running API request is running.
+     */
+    void weatherDataRequestStarted();
+
+    /**
      * @brief This signal notifies about changes in the @a m_WeatherDataModel
      * member
      */
