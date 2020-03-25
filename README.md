@@ -27,6 +27,19 @@ Then simply open the `Weather-App.pro` file in QtCreator and compile and run as 
 - Saving the current location as favourite for quick access from the drawer (swipe right from the left edge of the screen to show)
 - Multi-language support (currently just English and German)
 
+## Screenshots
+<div>
+  <img src="doc/img/start.png" width="32%" hspace="0.3%"/>
+  <img src="doc/img/search.png" width="32%" hspace="0.3%"/>
+  <img src="doc/img/full_forecast.png" width="32%" hspace="0.3%"/>
+</div>
+
+<div>
+  <img src="doc/img/add_fav.png" width="32%" hspace="0.3%"/>
+  <img src="doc/img/fav_added.png" width="32%" hspace="0.3%"/>
+  <img src="doc/img/fav_drawer.png" width="32%" hspace="0.3%"/>
+</div>
+
 ## Issues that occurred during development and how I solved them
 ### Missing (or not found) OpenSSL libraries on Android
 #### Issue:
